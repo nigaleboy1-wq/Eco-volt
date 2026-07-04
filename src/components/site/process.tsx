@@ -114,33 +114,59 @@ export function Process() {
                 transition={{ duration: 0.5 }}
                 className="absolute inset-0 flex flex-col justify-center mx-auto max-w-[1400px] px-5 md:px-10"
               >
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-                  <div>
-                    <Reveal>
-                      <span className="section-label text-[#0d3b2e]">
-                        <span className="w-8 h-px bg-[#f5b91a]" />
-                        Notre processus
-                      </span>
-                    </Reveal>
-                    <h2 className="mt-6 font-display font-semibold tracking-[-0.03em] leading-[1.02] text-[clamp(2rem,4.5vw,3.6rem)] text-[#0a1f1a] text-balance">
-                      <RevealHeadline text="Six étapes," />{" "}
-                      <RevealHeadline text="zéro surprise." delay={0.1} />
-                    </h2>
+                {/* Ligne dorée + Label */}
+                <Reveal>
+                  <div className="flex items-center gap-4 mb-6">
+                    <span className="w-12 h-px bg-[#f5b91a]" />
+                    <span className="text-xs font-display font-semibold tracking-[0.3em] uppercase text-[#0d3b2e]">
+                      Notre processus · 06 étapes
+                    </span>
                   </div>
-                  <Reveal delay={0.2}>
-                    <p className="text-base text-[#5a6b65] font-body leading-relaxed max-w-sm">
-                      Une méthode éprouvée qui sécurise chaque projet. Faites
-                      défiler pour parcourir les 6 étapes, l'une après l'autre.
+                </Reveal>
+
+                {/* Titre XL imposant */}
+                <h2 className="font-display font-bold tracking-[-0.04em] leading-[0.95] text-[clamp(2.5rem,7vw,6rem)] text-[#0a1f1a] text-balance max-w-5xl">
+                  <RevealHeadline text="Six étapes," />{" "}
+                  <RevealHeadline text="zéro surprise." delay={0.12} className="italic font-light text-[#0d3b2e]" />
+                </h2>
+
+                {/* Ligne de séparation */}
+                <motion.div
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ delay: 0.35, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  className="mt-8 h-px bg-gradient-to-r from-[#0d3b2e]/30 via-[#f5b91a]/40 to-transparent origin-left max-w-3xl"
+                />
+
+                {/* Grille : description + badge */}
+                <div className="mt-8 grid lg:grid-cols-12 gap-6 items-end max-w-5xl">
+                  <Reveal delay={0.25} className="lg:col-span-7">
+                    <p className="text-base md:text-lg text-[#5a6b65] font-body leading-relaxed text-pretty">
+                      Une méthode éprouvée qui sécurise chaque projet, du premier
+                      appel à la maintenance pluriannulaire. Faites défiler pour
+                      parcourir les 6 étapes, l'une après l'autre.
                     </p>
                   </Reveal>
+                  <Reveal delay={0.35} className="lg:col-span-5 lg:justify-self-end">
+                    <div className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-[#0d3b2e] text-white text-sm font-display font-medium shadow-lg shadow-[#0d3b2e]/20">
+                      <span className="relative flex h-2.5 w-2.5">
+                        <span className="absolute inline-flex h-full w-full rounded-full bg-[#f5b91a] opacity-75 animate-ping" />
+                        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#f5b91a]" />
+                      </span>
+                      Faites défiler pour découvrir
+                    </div>
+                  </Reveal>
                 </div>
-                <Reveal delay={0.3}>
-                  <div className="mt-10 inline-flex items-center gap-3 px-5 py-3 rounded-full bg-[#0d3b2e] text-white text-sm font-display">
-                    <span className="relative flex h-2 w-2">
-                      <span className="absolute inline-flex h-full w-full rounded-full bg-[#f5b91a] opacity-75 animate-ping" />
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-[#f5b91a]" />
-                    </span>
-                    Faites défiler pour découvrir le processus
+
+                {/* Aperçu des 6 étapes en bas */}
+                <Reveal delay={0.45}>
+                  <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 max-w-4xl">
+                    {STEPS.map((s, i) => (
+                      <div key={s.num} className="flex items-center gap-2">
+                        <span className="text-[#f5b91a] font-display font-bold text-sm">{s.num}</span>
+                        <span className="text-xs text-[#0d3b2e]/70 font-body font-medium leading-tight">{s.title}</span>
+                      </div>
+                    ))}
                   </div>
                 </Reveal>
               </motion.div>

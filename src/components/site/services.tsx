@@ -155,32 +155,63 @@ export function Services() {
                 transition={{ duration: 0.5 }}
                 className="absolute inset-0 flex flex-col justify-center mx-auto max-w-[1400px] px-5 md:px-10"
               >
+                {/* Ligne dorée + Label */}
                 <Reveal>
-                  <span className="section-label text-[#0d3b2e]">
-                    <span className="w-8 h-px bg-[#f5b91a]" />
-                    Nos services
-                  </span>
-                </Reveal>
-                <h2 className="mt-6 font-display font-semibold tracking-[-0.03em] leading-[1.02] text-[clamp(2rem,4.5vw,3.6rem)] text-[#0a1f1a] text-balance max-w-3xl">
-                  <RevealHeadline text="Une gamme complète" />{" "}
-                  <RevealHeadline text="pour chaque besoin" delay={0.1} />{" "}
-                  <RevealHeadline text="énergétique." delay={0.2} />
-                </h2>
-                <Reveal delay={0.2}>
-                  <p className="mt-7 text-base md:text-lg text-[#5a6b65] font-body leading-relaxed max-w-2xl">
-                    De l'étude initiale à la maintenance pluriannuelle, nous
-                    couvrons l'ensemble du cycle de vie de votre installation
-                    solaire. Faites défiler pour découvrir nos 7 expertises,
-                    l'une après l'autre.
-                  </p>
-                </Reveal>
-                <Reveal delay={0.3}>
-                  <div className="mt-10 inline-flex items-center gap-3 px-5 py-3 rounded-full bg-[#0d3b2e] text-white text-sm font-display">
-                    <span className="relative flex h-2 w-2">
-                      <span className="absolute inline-flex h-full w-full rounded-full bg-[#f5b91a] opacity-75 animate-ping" />
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-[#f5b91a]" />
+                  <div className="flex items-center gap-4 mb-6">
+                    <span className="w-12 h-px bg-[#f5b91a]" />
+                    <span className="text-xs font-display font-semibold tracking-[0.3em] uppercase text-[#0d3b2e]">
+                      Nos services · 07 expertises
                     </span>
-                    Faites défiler pour explorer nos services
+                  </div>
+                </Reveal>
+
+                {/* Titre XL imposant */}
+                <h2 className="font-display font-bold tracking-[-0.04em] leading-[0.95] text-[clamp(2.5rem,7vw,6rem)] text-[#0a1f1a] text-balance max-w-5xl">
+                  <RevealHeadline text="Une gamme" />{" "}
+                  <RevealHeadline text="complète pour" delay={0.08} />{" "}
+                  <RevealHeadline text="chaque besoin" delay={0.16} />{" "}
+                  <RevealHeadline text="énergétique." delay={0.24} className="italic font-light text-[#0d3b2e]" />
+                </h2>
+
+                {/* Ligne de séparation */}
+                <motion.div
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  className="mt-8 h-px bg-gradient-to-r from-[#0d3b2e]/30 via-[#f5b91a]/40 to-transparent origin-left max-w-3xl"
+                />
+
+                {/* Grille : description + badge */}
+                <div className="mt-8 grid lg:grid-cols-12 gap-6 items-end max-w-5xl">
+                  <Reveal delay={0.3} className="lg:col-span-7">
+                    <p className="text-base md:text-lg text-[#5a6b65] font-body leading-relaxed text-pretty">
+                      De l'étude initiale à la maintenance pluriannuelle, nous
+                      couvrons l'ensemble du cycle de vie de votre installation
+                      solaire. Faites défiler pour découvrir nos 7 expertises,
+                      l'une après l'autre.
+                    </p>
+                  </Reveal>
+                  <Reveal delay={0.4} className="lg:col-span-5 lg:justify-self-end">
+                    <div className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-[#0d3b2e] text-white text-sm font-display font-medium shadow-lg shadow-[#0d3b2e]/20">
+                      <span className="relative flex h-2.5 w-2.5">
+                        <span className="absolute inline-flex h-full w-full rounded-full bg-[#f5b91a] opacity-75 animate-ping" />
+                        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#f5b91a]" />
+                      </span>
+                      Faites défiler pour explorer
+                    </div>
+                  </Reveal>
+                </div>
+
+                {/* Aperçu des 7 services en bas */}
+                <Reveal delay={0.5}>
+                  <div className="mt-12 flex flex-wrap gap-x-6 gap-y-2 max-w-4xl">
+                    {SERVICES.map((s, i) => (
+                      <div key={s.id} className="flex items-center gap-2 text-sm text-[#5a6b65] font-body">
+                        <span className="text-[#f5b91a] font-display font-semibold text-xs">{s.num}</span>
+                        <span>{s.title}</span>
+                        {i < SERVICES.length - 1 && <span className="text-[#0d3b2e]/20 ml-4">·</span>}
+                      </div>
+                    ))}
                   </div>
                 </Reveal>
               </motion.div>

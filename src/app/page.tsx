@@ -12,6 +12,7 @@ import { Contact } from "@/components/site/contact";
 import { Footer } from "@/components/site/footer";
 import { ScrollProgress, CursorGlow } from "@/components/site/scroll-progress";
 import { SmoothScrollProvider } from "@/components/site/smooth-scroll";
+import { SectionTransition } from "@/components/site/section-transition";
 
 export default function Home() {
   return (
@@ -22,10 +23,37 @@ export default function Home() {
         <Navbar />
         <Hero />
         <About />
+
+        {/* Transition vers Services */}
+        <SectionTransition
+          num="02"
+          nextLabel="Nos services"
+          fromColor="#f6f4ee"
+          toColor="#ffffff"
+        />
+
         <Services />
         <Approach />
         <WhyUs />
+
+        {/* Transition vers Réalisations */}
+        <SectionTransition
+          num="03"
+          nextLabel="Réalisations"
+          fromColor="#07241c"
+          toColor="#f6f4ee"
+        />
+
         <Projects />
+
+        {/* Transition vers Processus */}
+        <SectionTransition
+          num="04"
+          nextLabel="Notre processus"
+          fromColor="#f6f4ee"
+          toColor="#f6f4ee"
+        />
+
         <Process />
         <Stats />
         <Testimonials />
