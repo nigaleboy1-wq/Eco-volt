@@ -1,0 +1,32 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "modern corporate office building glass facade"
+✅ Got 3 images
+{
+  "success": true,
+  "query": "modern corporate office building glass facade",
+  "count": 3,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/683967fad410.jpg",
+      "caption": "",
+      "source": "Dezeen",
+      "original_width": "2364px",
+      "original_height": "1331px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/60e45e1a8908.jpg",
+      "caption": "",
+      "source": "Seele",
+      "original_width": "1095px",
+      "original_height": "896px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/47356af1f104.jpg",
+      "caption": "",
+      "source": "Seele",
+      "original_width": "1266px",
+      "original_height": "769px"
+    }
+  ]
+}

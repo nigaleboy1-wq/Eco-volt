@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { Reveal, RevealHeadline, Parallax } from "./reveal";
 import { ArrowUpRight, MapPin, ArrowRight } from "lucide-react";
 import { useSmoothScroll } from "./smooth-scroll";
@@ -14,7 +14,7 @@ const PROJECTS = [
     size: "850 kWc",
     year: "2024",
     image:
-      "https://sfile.chatglm.cn/images-ppt/c933683ed6c3.jpg",
+      "https://sfile.chatglm.cn/images-ppt/718d965ed775.png",
     featured: true,
   },
   {
@@ -54,7 +54,7 @@ const PROJECTS = [
     size: "240 kWc + VE",
     year: "2024",
     image:
-      "https://sfile.chatglm.cn/images-ppt/bb5b15a4721c.jpg",
+      "https://sfile.chatglm.cn/images-ppt/683967fad410.jpg",
     featured: false,
   },
   {
@@ -286,12 +286,33 @@ function ProjectCard({ project, index }: { project: (typeof PROJECTS)[number]; i
   const { velocity } = useSmoothScroll();
   const skewY = useTransform(velocity, [-50, 0, 50], [-1.5, 0, 1.5]);
 
+  // === Effet 3D tilt au survol ===
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [10, -10]), { stiffness: 300, damping: 30 });
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-10, 10]), { stiffness: 300, damping: 30 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
+    mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    setHovered(false);
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
   return (
     <motion.div
       ref={ref}
-      style={{ skewY }}
+      style={{ skewY, rotateX, rotateY, transformPerspective: 1200, transformStyle: "preserve-3d" }}
+      onMouseMove={handleMouseMove}
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseLeave={handleMouseLeave}
       className="group relative aspect-[4/5] rounded-3xl overflow-hidden bg-[#07241c] cursor-pointer lift"
     >
       {/* Image avec parallaxe */}

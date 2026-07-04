@@ -1,0 +1,32 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "solar technician cleaning panels maintenance work"
+✅ Got 3 images
+{
+  "success": true,
+  "query": "solar technician cleaning panels maintenance work",
+  "count": 3,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/27cb0d7e9152.jpg",
+      "caption": "",
+      "source": "Dreamstime.com",
+      "original_width": "1600px",
+      "original_height": "1155px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/a80178d2a800.jpg",
+      "caption": "",
+      "source": "Cleaning Pro",
+      "original_width": "1232px",
+      "original_height": "924px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/5c5cd951eece.jpg",
+      "caption": "",
+      "source": "EnergySage",
+      "original_width": "1550px",
+      "original_height": "901px"
+    }
+  ]
+}

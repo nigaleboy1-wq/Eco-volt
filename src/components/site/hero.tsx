@@ -41,7 +41,7 @@ export function Hero() {
           className="absolute inset-0"
           style={{
             backgroundImage:
-              "url('https://sfile.chatglm.cn/images-ppt/f51d87e7b462.jpg')",
+              "url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=2400&q=80')",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}

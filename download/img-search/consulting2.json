@@ -1,0 +1,32 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "engineer with blueprint plans solar project office"
+✅ Got 3 images
+{
+  "success": true,
+  "query": "engineer with blueprint plans solar project office",
+  "count": 3,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/7c097432de26.jpg",
+      "caption": "",
+      "source": "Alamy",
+      "original_width": "1300px",
+      "original_height": "957px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/866464a91477.jpg",
+      "caption": "",
+      "source": "LinkedIn",
+      "original_width": "800px",
+      "original_height": "1200px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/1866fd9fef87.jpg",
+      "caption": "",
+      "source": "e360-Yale",
+      "original_width": "1500px",
+      "original_height": "1012px"
+    }
+  ]
+}

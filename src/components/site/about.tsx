@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { Reveal, RevealHeadline, Parallax } from "./reveal";
 import { ShieldCheck, Sparkles, Leaf, Users } from "lucide-react";
 
@@ -60,7 +60,7 @@ export function About() {
                     className="absolute inset-0"
                     style={{
                       backgroundImage:
-                        "url('https://sfile.chatglm.cn/images-ppt/af6517a895ec.jpg')",
+                        "url('https://sfile.chatglm.cn/images-ppt/61a3c59c2370.jpg')",
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                     }}
@@ -135,17 +135,7 @@ export function About() {
             <div className="mt-8 grid sm:grid-cols-2 gap-4">
               {VALUES.map((v, i) => (
                 <Reveal key={v.title} delay={0.1 * i}>
-                  <div className="lift group bg-white rounded-2xl p-5 border border-black/[0.06] hover:border-[#0d3b2e]/20 hover:shadow-xl hover:shadow-[#0d3b2e]/5">
-                    <div className="w-10 h-10 rounded-xl bg-[#e8f1ec] grid place-items-center mb-3 group-hover:bg-[#0d3b2e] transition-colors duration-500">
-                      <v.icon className="w-4 h-4 text-[#0d3b2e] group-hover:text-[#f5b91a] transition-colors duration-500" />
-                    </div>
-                    <h3 className="font-display text-base font-semibold text-[#0a1f1a] tracking-tight">
-                      {v.title}
-                    </h3>
-                    <p className="mt-1.5 text-sm text-[#5a6b65] font-body leading-relaxed">
-                      {v.desc}
-                    </p>
-                  </div>
+                  <ValueCard value={v} />
                 </Reveal>
               ))}
             </div>
@@ -153,5 +143,47 @@ export function About() {
         </div>
       </div>
     </section>
+  );
+}
+
+function ValueCard({ value }: { value: (typeof VALUES)[number] }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [6, -6]), { stiffness: 300, damping: 25 });
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-6, 6]), { stiffness: 300, damping: 25 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
+    mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX, rotateY, transformPerspective: 800, transformStyle: "preserve-3d" }}
+      className="group bg-white rounded-2xl p-5 border border-black/[0.06] hover:border-[#0d3b2e]/20 hover:shadow-xl hover:shadow-[#0d3b2e]/5 transition-colors"
+    >
+      <div style={{ transform: "translateZ(20px)" }} className="w-10 h-10 rounded-xl bg-[#e8f1ec] grid place-items-center mb-3 group-hover:bg-[#0d3b2e] transition-colors duration-500">
+        <value.icon className="w-4 h-4 text-[#0d3b2e] group-hover:text-[#f5b91a] transition-colors duration-500" />
+      </div>
+      <h3 style={{ transform: "translateZ(15px)" }} className="font-display text-base font-semibold text-[#0a1f1a] tracking-tight">
+        {value.title}
+      </h3>
+      <p style={{ transform: "translateZ(10px)" }} className="mt-1.5 text-sm text-[#5a6b65] font-body leading-relaxed">
+        {value.desc}
+      </p>
+    </motion.div>
   );
 }

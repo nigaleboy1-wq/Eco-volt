@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { Reveal, RevealHeadline } from "./reveal";
 import {
   Award,
@@ -115,24 +115,7 @@ export function WhyUs() {
         <div className="mt-12 grid md:grid-cols-3 gap-4">
           {POINTS.map((p, i) => (
             <Reveal key={p.title} delay={0.05 * i} className={p.span}>
-              <div className="group relative h-full glass rounded-3xl p-6 hover:bg-white/[0.08] transition-all duration-500 hover:-translate-y-1 overflow-hidden">
-                {/* Halo qui apparaît au hover */}
-                <div className="absolute -bottom-20 -right-20 w-60 h-60 rounded-full bg-[#f5b91a]/0 group-hover:bg-[#f5b91a]/10 blur-[80px] transition-all duration-700" />
-                <div className="relative flex items-start justify-between">
-                  <div className="w-12 h-12 rounded-2xl bg-[#f5b91a]/15 grid place-items-center group-hover:bg-[#f5b91a] transition-colors duration-500">
-                    <p.icon className="w-5 h-5 text-[#f5b91a] group-hover:text-[#07241c] transition-colors duration-500" />
-                  </div>
-                  <span className="font-display text-xs text-white/30 tracking-widest">
-                    0{i + 1}
-                  </span>
-                </div>
-                <h3 className="relative mt-6 font-display text-xl font-semibold tracking-tight">
-                  {p.title}
-                </h3>
-                <p className="relative mt-2.5 text-sm text-white/65 font-body leading-relaxed">
-                  {p.desc}
-                </p>
-              </div>
+              <WhyUsCard point={p} index={i} />
             </Reveal>
           ))}
 
@@ -162,5 +145,61 @@ export function WhyUs() {
         </div>
       </div>
     </section>
+  );
+}
+
+function WhyUsCard({ point, index }: { point: (typeof POINTS)[number]; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [8, -8]), { stiffness: 300, damping: 25 });
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-8, 8]), { stiffness: 300, damping: 25 });
+
+  // L'icône se déplace en profondeur au survol
+  const iconX = useTransform(mouseX, [-0.5, 0.5], [-8, 8]);
+  const iconY = useTransform(mouseY, [-0.5, 0.5], [-8, 8]);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
+    mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX, rotateY, transformPerspective: 1000, transformStyle: "preserve-3d" }}
+      className="group relative h-full glass rounded-3xl p-6 hover:bg-white/[0.08] transition-colors duration-500 overflow-hidden"
+    >
+      {/* Halo qui apparaît au hover */}
+      <div className="absolute -bottom-20 -right-20 w-60 h-60 rounded-full bg-[#f5b91a]/0 group-hover:bg-[#f5b91a]/10 blur-[80px] transition-all duration-700" />
+      <div className="relative flex items-start justify-between" style={{ transform: "translateZ(30px)" }}>
+        <motion.div
+          style={{ x: iconX, y: iconY, transform: "translateZ(20px)" }}
+          className="w-12 h-12 rounded-2xl bg-[#f5b91a]/15 grid place-items-center group-hover:bg-[#f5b91a] transition-colors duration-500"
+        >
+          <point.icon className="w-5 h-5 text-[#f5b91a] group-hover:text-[#07241c] transition-colors duration-500" />
+        </motion.div>
+        <span className="font-display text-xs text-white/30 tracking-widest">
+          0{index + 1}
+        </span>
+      </div>
+      <h3 className="relative mt-6 font-display text-xl font-semibold tracking-tight" style={{ transform: "translateZ(25px)" }}>
+        {point.title}
+      </h3>
+      <p className="relative mt-2.5 text-sm text-white/65 font-body leading-relaxed" style={{ transform: "translateZ(15px)" }}>
+        {point.desc}
+      </p>
+    </motion.div>
   );
 }

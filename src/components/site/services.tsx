@@ -56,7 +56,7 @@ const SERVICES = [
     desc: "Installation de bornes de recharge pour véhicules électriques, intégrant la recharge solaire pour une mobilité décarbonée.",
     points: ["Bornes AC & DC", "Recharge solaire directe", "Gestion de flotte & facturation"],
     image:
-      "https://sfile.chatglm.cn/images-ppt/33c5f58c9257.webp",
+      "https://sfile.chatglm.cn/images-ppt/3463dee91a77.jpg",
   },
   {
     id: "maintenance",
@@ -67,7 +67,7 @@ const SERVICES = [
     desc: "Contrats de maintenance préventive et intervention corrective rapide pour préserver la performance de votre installation.",
     points: ["Contrats annuels sur mesure", "Intervention sous 48h", "Télémétrie & alertes intelligentes"],
     image:
-      "https://sfile.chatglm.cn/images-ppt/89c6bc18b94a.jpg",
+      "https://sfile.chatglm.cn/images-ppt/a80178d2a800.jpg",
   },
   {
     id: "audit",
@@ -89,7 +89,7 @@ const SERVICES = [
     desc: "Accompagnement technique pour porteurs de projet, institutions et industriels : dimensionnement, choix d'équipements, supervision.",
     points: ["Études de faisabilité", "Supervision de chantier", "Formation de vos équipes"],
     image:
-      "https://sfile.chatglm.cn/images-ppt/86297eaa20cb.jpg",
+      "https://sfile.chatglm.cn/images-ppt/866464a91477.jpg",
   },
 ];
 
