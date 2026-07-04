@@ -1,0 +1,25 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "solar power inverter electrical cabinet installation"
+✅ Got 2 images
+{
+  "success": true,
+  "query": "solar power inverter electrical cabinet installation",
+  "count": 2,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/85ba21b90f30.jpg",
+      "caption": "",
+      "source": "VoltaconSolar",
+      "original_width": "1200px",
+      "original_height": "1200px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/ce069c7c4cc9.jpg",
+      "caption": "",
+      "source": "SolarReviews",
+      "original_width": "1024px",
+      "original_height": "939px"
+    }
+  ]
+}

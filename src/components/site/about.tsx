@@ -60,7 +60,7 @@ export function About() {
                     className="absolute inset-0"
                     style={{
                       backgroundImage:
-                        "url('https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?auto=format&fit=crop&w=1400&q=80')",
+                        "url('https://sfile.chatglm.cn/images-ppt/af6517a895ec.jpg')",
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                     }}

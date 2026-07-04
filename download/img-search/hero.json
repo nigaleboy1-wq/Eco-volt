@@ -1,0 +1,39 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "large solar photovoltaic farm panels African savanna sunset"
+✅ Got 4 images
+{
+  "success": true,
+  "query": "large solar photovoltaic farm panels African savanna sunset",
+  "count": 4,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/f51d87e7b462.jpg",
+      "caption": "",
+      "source": "PVKnowhow",
+      "original_width": "1200px",
+      "original_height": "800px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/cfdeb8f1183d.png",
+      "caption": "",
+      "source": "Renew Africa",
+      "original_width": "1280px",
+      "original_height": "720px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/20411b8e20a4.png",
+      "caption": "",
+      "source": "SolarQuarter",
+      "original_width": "1024px",
+      "original_height": "1024px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/7235c64ea985.jpg",
+      "caption": "",
+      "source": "Canadian Geographic",
+      "original_width": "1280px",
+      "original_height": "720px"
+    }
+  ]
+}

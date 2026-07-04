@@ -1,0 +1,25 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "solar panels on school building campus Africa"
+✅ Got 2 images
+{
+  "success": true,
+  "query": "solar panels on school building campus Africa",
+  "count": 2,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/b3461b3644bb.jpg",
+      "caption": "",
+      "source": "ny times",
+      "original_width": "1800px",
+      "original_height": "1801px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/2eb6fb004feb.jpg",
+      "caption": "",
+      "source": "e360-Yale",
+      "original_width": "1500px",
+      "original_height": "1000px"
+    }
+  ]
+}

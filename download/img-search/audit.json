@@ -1,0 +1,25 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "energy audit engineer laptop analyzing data"
+✅ Got 2 images
+{
+  "success": true,
+  "query": "energy audit engineer laptop analyzing data",
+  "count": 2,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/3b1748e0e055.png",
+      "caption": "",
+      "source": "CompAir",
+      "original_width": "1600px",
+      "original_height": "1016px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/17a30040ff8f.jpg",
+      "caption": "",
+      "source": "AIDAR Solutions",
+      "original_width": "1536px",
+      "original_height": "1024px"
+    }
+  ]
+}

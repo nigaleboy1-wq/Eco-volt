@@ -14,7 +14,7 @@ const PROJECTS = [
     size: "850 kWc",
     year: "2024",
     image:
-      "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1600&q=80",
+      "https://sfile.chatglm.cn/images-ppt/c933683ed6c3.jpg",
     featured: true,
   },
   {
@@ -24,7 +24,7 @@ const PROJECTS = [
     size: "12 kWc",
     year: "2024",
     image:
-      "https://images.unsplash.com/photo-1561375894-7e9f71c1c7f0?auto=format&fit=crop&w=1600&q=80",
+      "https://sfile.chatglm.cn/images-ppt/ece0c983a174.jpg",
     featured: false,
   },
   {
@@ -34,7 +34,7 @@ const PROJECTS = [
     size: "60 kWc + stockage",
     year: "2023",
     image:
-      "https://images.unsplash.com/photo-1631805782872-f3b91c87f3a8?auto=format&fit=crop&w=1600&q=80",
+      "https://sfile.chatglm.cn/images-ppt/f3c98e521c94.jpg",
     featured: false,
   },
   {
@@ -44,7 +44,7 @@ const PROJECTS = [
     size: "150 kWc",
     year: "2023",
     image:
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80",
+      "https://sfile.chatglm.cn/images-ppt/b3461b3644bb.jpg",
     featured: false,
   },
   {
@@ -54,7 +54,7 @@ const PROJECTS = [
     size: "240 kWc + VE",
     year: "2024",
     image:
-      "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1600&q=80",
+      "https://sfile.chatglm.cn/images-ppt/bb5b15a4721c.jpg",
     featured: false,
   },
   {
@@ -64,7 +64,7 @@ const PROJECTS = [
     size: "180 kWc",
     year: "2023",
     image:
-      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1600&q=80",
+      "https://sfile.chatglm.cn/images-ppt/a205496c1e6a.jpg",
     featured: false,
   },
 ];

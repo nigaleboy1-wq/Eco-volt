@@ -1,0 +1,25 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "solar photovoltaic panels installation rooftop"
+✅ Got 2 images
+{
+  "success": true,
+  "query": "solar photovoltaic panels installation rooftop",
+  "count": 2,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/49533bf4be59.jpg",
+      "caption": "",
+      "source": "Spirit Energy",
+      "original_width": "1280px",
+      "original_height": "649px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/d2ad8488e67d.jpg",
+      "caption": "",
+      "source": "Solartap",
+      "original_width": "1100px",
+      "original_height": "733px"
+    }
+  ]
+}

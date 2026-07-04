@@ -1,0 +1,25 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "solar investment renewable energy growth"
+✅ Got 2 images
+{
+  "success": true,
+  "query": "solar investment renewable energy growth",
+  "count": 2,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/d579db7e55d7.png",
+      "caption": "",
+      "source": "Rejobs.org",
+      "original_width": "1920px",
+      "original_height": "1080px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/7df4dee541fe.png",
+      "caption": "",
+      "source": "Pace Ventures",
+      "original_width": "1146px",
+      "original_height": "991px"
+    }
+  ]
+}

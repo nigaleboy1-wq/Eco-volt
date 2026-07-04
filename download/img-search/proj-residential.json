@@ -1,0 +1,25 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "modern solar powered villa house with panels"
+✅ Got 2 images
+{
+  "success": true,
+  "query": "modern solar powered villa house with panels",
+  "count": 2,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/ece0c983a174.jpg",
+      "caption": "",
+      "source": "Islanders Properties",
+      "original_width": "1280px",
+      "original_height": "1280px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/9bd697202889.png",
+      "caption": "",
+      "source": "3A Signature",
+      "original_width": "1200px",
+      "original_height": "800px"
+    }
+  ]
+}

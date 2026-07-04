@@ -32,7 +32,7 @@ export function Approach() {
                     className="absolute inset-0"
                     style={{
                       backgroundImage:
-                        "url('https://images.unsplash.com/photo-16059804139-fran59a4b51a?auto=format&fit=crop&w=1400&q=80')",
+                        "url('https://sfile.chatglm.cn/images-ppt/d579db7e55d7.png')",
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                     }}

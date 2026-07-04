@@ -23,7 +23,7 @@ const SERVICES = [
     desc: "Conception et installation de centrales solaires adaptées à votre toiture ou à votre terrain, dimensionnées pour maximiser votre autonomie énergétique.",
     points: ["Surimposition & intégration toiture", "Centrales solaires au sol", "Systèmes hybrides & isolés"],
     image:
-      "https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?auto=format&fit=crop&w=1600&q=80",
+      "https://sfile.chatglm.cn/images-ppt/49533bf4be59.jpg",
   },
   {
     id: "storage",
@@ -34,7 +34,7 @@ const SERVICES = [
     desc: "Des bancs de batteries lithium intelligentes qui stockent votre énergie solaire pour la restituer la nuit ou en cas de coupure.",
     points: ["Batteries lithium LiFePO4", "Autonomie personnalisée", "Gestion intelligente de l'énergie"],
     image:
-      "https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?auto=format&fit=crop&w=1600&q=80",
+      "https://sfile.chatglm.cn/images-ppt/3048aba49cf9.jpg",
   },
   {
     id: "inverter",
@@ -45,7 +45,7 @@ const SERVICES = [
     desc: "Sélection et intégration d'onduleurs de pointe qui transforment le courant continu produit en électricité alternative parfaite.",
     points: ["Onduleurs string & centralisés", "Onduleurs hybrides intelligents", "Monitoring en temps réel"],
     image:
-      "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=1600&q=80",
+      "https://sfile.chatglm.cn/images-ppt/85ba21b90f30.jpg",
   },
   {
     id: "ev",
@@ -56,7 +56,7 @@ const SERVICES = [
     desc: "Installation de bornes de recharge pour véhicules électriques, intégrant la recharge solaire pour une mobilité décarbonée.",
     points: ["Bornes AC & DC", "Recharge solaire directe", "Gestion de flotte & facturation"],
     image:
-      "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1600&q=80",
+      "https://sfile.chatglm.cn/images-ppt/33c5f58c9257.webp",
   },
   {
     id: "maintenance",
@@ -67,7 +67,7 @@ const SERVICES = [
     desc: "Contrats de maintenance préventive et intervention corrective rapide pour préserver la performance de votre installation.",
     points: ["Contrats annuels sur mesure", "Intervention sous 48h", "Télémétrie & alertes intelligentes"],
     image:
-      "https://images.unsplash.com/photo-1581092446327-9b52bd1570c2?auto=format&fit=crop&w=1600&q=80",
+      "https://sfile.chatglm.cn/images-ppt/89c6bc18b94a.jpg",
   },
   {
     id: "audit",
@@ -78,7 +78,7 @@ const SERVICES = [
     desc: "Analyse complète de vos consommations et de vos gisements d'économie, accompagnée d'un plan d'action chiffré et hiérarchisé.",
     points: ["Bilan de consommation détaillé", "Modélisation des économies", "Plan d'action priorisé"],
     image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=80",
+      "https://sfile.chatglm.cn/images-ppt/3b1748e0e055.png",
   },
   {
     id: "consulting",
@@ -89,7 +89,7 @@ const SERVICES = [
     desc: "Accompagnement technique pour porteurs de projet, institutions et industriels : dimensionnement, choix d'équipements, supervision.",
     points: ["Études de faisabilité", "Supervision de chantier", "Formation de vos équipes"],
     image:
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80",
+      "https://sfile.chatglm.cn/images-ppt/86297eaa20cb.jpg",
   },
 ];
 

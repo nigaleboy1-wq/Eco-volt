@@ -1,0 +1,25 @@
+🚀 Initializing Z-AI SDK...
+🔎 Searching images: "electric vehicle charging station modern"
+✅ Got 2 images
+{
+  "success": true,
+  "query": "electric vehicle charging station modern",
+  "count": 2,
+  "ranked": false,
+  "results": [
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/33c5f58c9257.webp",
+      "caption": "",
+      "source": "EVparts4x4",
+      "original_width": "1400px",
+      "original_height": "800px"
+    },
+    {
+      "original_url": "https://sfile.chatglm.cn/images-ppt/a8a83767d492.jpg",
+      "caption": "",
+      "source": "Tayniu EV charger",
+      "original_width": "1366px",
+      "original_height": "768px"
+    }
+  ]
+}
