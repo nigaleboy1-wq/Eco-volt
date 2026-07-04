@@ -74,6 +74,11 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
 
     // === Intercepte la molette ===
     const onWheel = (e: WheelEvent) => {
+      // Si l'événement a déjà été "claim" par un usePinnedScroll (capture phase),
+      // on le laisse passer sans rien faire — le pinned scroll gère l'animation.
+      if ((e as WheelEvent & { __pinnedClaimed?: boolean }).__pinnedClaimed) {
+        return;
+      }
       e.preventDefault();
       setMode("wheel");
       // Multiplicateur pour un scroll un peu plus réactif
