@@ -33,41 +33,46 @@ export function Navbar() {
         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? "py-3 bg-white/85 backdrop-blur-xl border-b border-black/5 shadow-sm shadow-black/[0.03]"
-            : "py-5 bg-transparent"
+            ? "py-3 bg-[#07241c]/85 backdrop-blur-xl border-b border-white/5"
+            : "py-4 md:py-5 bg-[#07241c]/40 backdrop-blur-sm"
         }`}
       >
-        <div className="mx-auto max-w-[1400px] px-5 md:px-10 flex items-center justify-between">
-          <Magnetic as="a" href="#top" strength={0.2}>
+        <div className="mx-auto max-w-[1400px] px-5 md:px-10 grid grid-cols-3 items-center">
+          {/* Logo à gauche */}
+          <Magnetic as="a" href="#top" strength={0.2} className="justify-self-start">
             <span className="flex items-center gap-2.5 group cursor-pointer">
-              <span className="relative grid place-items-center w-9 h-9 rounded-full bg-[#0d3b2e] overflow-hidden">
-                <Sun className="w-4 h-4 text-[#f5b91a]" />
-                <motion.span
-                  className="absolute inset-0 rounded-full ring-1 ring-[#f5b91a]/40"
-                  whileHover={{ scale: 1.15, opacity: 1 }}
-                />
+              <span className="relative grid place-items-center w-9 h-9 rounded-full bg-[#f5b91a] overflow-hidden">
+                <Sun className="w-4 h-4 text-[#07241c]" />
               </span>
-              <span className="font-display text-[1.05rem] tracking-tight font-semibold text-[#0d3b2e]">
+              <span className="font-display text-[1.05rem] tracking-tight font-semibold text-white">
                 EcoVolt<span className="text-[#f5b91a]">.</span>
               </span>
             </span>
           </Magnetic>
 
-          <nav className="hidden lg:flex items-center gap-9">
+          {/* Navigation centrée */}
+          <nav className="hidden lg:flex items-center gap-8 justify-self-center">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="link-underline text-[0.92rem] font-body text-[#0a1f1a]/80 hover:text-[#0d3b2e] transition-colors font-medium"
+                className="link-underline text-[0.88rem] font-body text-white/75 hover:text-white transition-colors font-medium"
               >
                 {link.label}
               </a>
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
+          {/* Boutons à droite */}
+          <div className="flex items-center gap-2.5 justify-self-end">
+            <a
+              href="#contact"
+              className="hidden md:inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm text-white px-4 py-2 text-sm font-display font-medium hover:bg-white/10 transition-all duration-300"
+            >
+              Se connecter
+            </a>
             <Magnetic as="a" href="#contact" strength={0.25} className="hidden md:block">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0d3b2e] text-white px-5 py-2.5 text-sm font-semibold font-display tracking-tight hover:bg-[#07241c] transition-all duration-300 hover:shadow-lg hover:shadow-[#0d3b2e]/20 cursor-pointer">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f5b91a] text-[#07241c] px-5 py-2.5 text-sm font-semibold font-display tracking-tight hover:bg-[#ffd95c] transition-all duration-300 cursor-pointer">
                 Demander un devis
                 <ArrowUpRight className="w-4 h-4" />
               </span>
@@ -75,9 +80,9 @@ export function Navbar() {
             <button
               onClick={() => setOpen(true)}
               aria-label="Ouvrir le menu"
-              className="lg:hidden grid place-items-center w-10 h-10 rounded-full border border-black/10 hover:bg-black/5 transition-colors"
+              className="lg:hidden grid place-items-center w-10 h-10 rounded-full border border-white/20 text-white hover:bg-white/10 transition-colors"
             >
-              <Menu className="w-5 h-5 text-[#0d3b2e]" />
+              <Menu className="w-5 h-5" />
             </button>
           </div>
         </div>
