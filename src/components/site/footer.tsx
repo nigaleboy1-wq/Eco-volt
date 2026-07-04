@@ -97,7 +97,7 @@ export function Footer() {
                     <li key={l}>
                       <a
                         href="#"
-                        className="link-underline text-sm text-white/55 hover:text-white font-body"
+                        className="link-underline text-sm text-white/65 hover:text-white font-body"
                       >
                         {l}
                       </a>
@@ -113,7 +113,7 @@ export function Footer() {
             <h3 className="font-display text-sm font-semibold text-white/90 uppercase tracking-wider">
               Newsletter
             </h3>
-            <p className="mt-4 text-xs text-white/55 font-body leading-relaxed">
+            <p className="mt-4 text-xs text-white/65 font-body leading-relaxed">
               Recevez nos actualités et études de cas.
             </p>
             <form
@@ -140,7 +140,7 @@ export function Footer() {
       {/* Bande inférieure */}
       <div className="relative border-t border-white/10">
         <div className="mx-auto max-w-[1400px] px-5 md:px-10 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/45 font-body">
+          <p className="text-xs text-white/60 font-body">
             © {new Date().getFullYear()} EcoVolt Solutions. Tous droits réservés.
             Conçu avec exigence à Ouagadougou.
           </p>

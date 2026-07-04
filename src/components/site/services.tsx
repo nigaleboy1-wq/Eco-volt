@@ -245,10 +245,10 @@ function ServiceCard({
       onMouseEnter={() => setActive(index)}
       className="group relative border-b border-black/10 py-8 lg:py-10 cursor-pointer"
     >
-      <motion.div style={{ x }} className="flex items-start gap-5 lg:gap-7">
+      <motion.div style={{ x }} className="relative flex items-baseline gap-5 lg:gap-7">
         {/* Numéro */}
         <span
-          className={`font-display text-sm font-semibold tracking-widest transition-colors duration-500 ${
+          className={`font-display text-sm font-semibold tracking-widest transition-colors duration-500 shrink-0 pt-2 ${
             isActive ? "text-[#f5b91a]" : "text-[#0d3b2e]/40"
           }`}
         >
@@ -257,7 +257,7 @@ function ServiceCard({
 
         {/* Contenu */}
         <div className="flex-1">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-start justify-between gap-4">
             <h3
               className={`font-display font-semibold tracking-tight transition-all duration-500 ${
                 isActive

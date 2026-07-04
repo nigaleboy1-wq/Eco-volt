@@ -50,7 +50,7 @@ export function Hero() {
         initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2, duration: 0.8 }}
-        className="absolute top-[14vh] left-1/2 -translate-x-1/2 z-20 hidden md:flex items-center gap-3 px-4 py-2 rounded-full glass text-xs text-white/85 font-body"
+        className="absolute top-[12vh] left-1/2 -translate-x-1/2 z-20 hidden md:flex items-center gap-3 px-4 py-2 rounded-full glass text-xs text-white/85 font-body whitespace-nowrap"
       >
         <span className="relative flex h-2 w-2">
           <span className="absolute inline-flex h-full w-full rounded-full bg-[#f5b91a] opacity-75 animate-ping" />
@@ -170,8 +170,8 @@ export function Hero() {
       </motion.div>
 
       {/* Étiquette latérale rotative */}
-      <div className="hidden lg:block absolute right-8 bottom-1/2 translate-y-1/2 z-10 rotate-90 origin-right text-white/50 text-xs tracking-[0.3em] uppercase font-display">
-        EcoVolt Solutions / Établi à Ouagadougou
+      <div className="hidden xl:flex items-center gap-3 absolute right-6 top-1/2 -translate-y-1/2 z-10 [writing-mode:vertical-rl] rotate-180 text-white/40 text-[0.7rem] tracking-[0.3em] uppercase font-display">
+        EcoVolt Solutions · Établi à Ouagadougou
       </div>
     </section>
   );

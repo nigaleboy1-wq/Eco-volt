@@ -112,9 +112,9 @@ export function Process() {
                   <div className="relative pl-20 md:pl-28">
                     {/* Nœud */}
                     <div className="absolute left-0 top-0 grid place-items-center w-[58px] md:w-[90px]">
-                      <div className="relative grid place-items-center w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-white border border-black/10 shadow-lg shadow-[#0d3b2e]/5">
+                      <div className="relative grid place-items-center w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-white border border-black/10 shadow-lg shadow-[#0d3b2e]/10">
                         <step.icon className="w-5 h-5 md:w-6 md:h-6 text-[#0d3b2e]" />
-                        <span className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-[#f5b91a] text-[#07241c] grid place-items-center text-xs font-display font-bold">
+                        <span className="absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full bg-[#f5b91a] text-[#07241c] grid place-items-center text-[0.7rem] font-display font-bold border-2 border-white">
                           {i + 1}
                         </span>
                       </div>

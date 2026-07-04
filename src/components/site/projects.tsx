@@ -112,7 +112,7 @@ export function Projects() {
           <motion.div
             ref={listRef}
             style={{ x }}
-            className="flex gap-6 md:gap-10 px-5 md:px-10 will-change-transform"
+            className="relative flex gap-6 md:gap-10 px-5 md:px-10 will-change-transform"
           >
             {PROJECTS.map((p, i) => (
               <ProjectCard key={i} project={p} index={i} />
@@ -143,11 +143,16 @@ export function Projects() {
           </motion.div>
 
           {/* Indicateur de progression horizontal */}
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-40 h-1 bg-black/10 rounded-full overflow-hidden">
-            <motion.div
-              style={{ scaleX: scrollYProgress }}
-              className="h-full bg-[#0d3b2e] origin-left"
-            />
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+            <span className="text-[0.65rem] tracking-[0.25em] uppercase text-[#5a6b65] font-display">
+              Faites défiler
+            </span>
+            <div className="w-48 h-1 bg-black/10 rounded-full overflow-hidden">
+              <motion.div
+                style={{ scaleX: scrollYProgress }}
+                className="h-full bg-[#0d3b2e] origin-left"
+              />
+            </div>
           </div>
         </div>
       </div>

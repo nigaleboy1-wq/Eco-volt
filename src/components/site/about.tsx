@@ -71,27 +71,27 @@ export function About() {
                 {/* Carte flottante superposée */}
                 <motion.div
                   style={{ y: numY }}
-                  className="absolute -bottom-6 -left-6 md:-left-10 bg-white rounded-2xl p-6 shadow-xl shadow-[#0d3b2e]/15 w-44"
+                  className="absolute -bottom-8 -right-4 md:-right-8 bg-white rounded-2xl p-5 shadow-xl shadow-[#0d3b2e]/15 w-48 z-20"
                 >
-                  <div className="font-display text-4xl font-semibold text-[#0d3b2e] tracking-tight">
+                  <div className="font-display text-4xl font-semibold text-[#0d3b2e] tracking-tight leading-none">
                     +12
                   </div>
-                  <div className="text-xs text-[#5a6b65] mt-1 font-body">
+                  <div className="text-xs text-[#5a6b65] mt-2 font-body leading-snug">
                     ans d'expertise sur le terrain ouest-africain
                   </div>
                 </motion.div>
               </div>
             </Parallax>
 
-            {/* Statistiques verticales à droite de l'image */}
-            <div className="hidden lg:flex flex-col gap-4 absolute -right-4 top-1/2 -translate-y-1/2">
-              <div className="bg-[#0d3b2e] text-white rounded-2xl p-5 w-40">
-                <div className="font-display text-3xl font-semibold">2 500+</div>
-                <div className="text-xs text-white/70 mt-1">Projets livrés</div>
+            {/* Statistiques verticales à gauche de l'image */}
+            <div className="hidden lg:flex flex-col gap-3 absolute -left-6 top-1/2 -translate-y-1/2 z-20">
+              <div className="bg-[#0d3b2e] text-white rounded-2xl p-4 w-36 shadow-lg shadow-[#0d3b2e]/20">
+                <div className="font-display text-2xl font-semibold leading-none">2 500+</div>
+                <div className="text-xs text-white/70 mt-2">Projets livrés</div>
               </div>
-              <div className="bg-[#f5b91a] text-[#07241c] rounded-2xl p-5 w-40">
-                <div className="font-display text-3xl font-semibold">98%</div>
-                <div className="text-xs mt-1 opacity-80">Clients satisfaits</div>
+              <div className="bg-[#f5b91a] text-[#07241c] rounded-2xl p-4 w-36 shadow-lg shadow-[#f5b91a]/30">
+                <div className="font-display text-2xl font-semibold leading-none">98%</div>
+                <div className="text-xs mt-2 opacity-80">Clients satisfaits</div>
               </div>
             </div>
           </div>
