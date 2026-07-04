@@ -22,32 +22,32 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "EcoVolt Solutions — Renewable Energy Engineered for West Africa",
+  title: "EcoVolt Solutions — Énergie solaire premium pour l'Afrique de l'Ouest",
   description:
-    "EcoVolt Solutions designs and installs premium solar photovoltaic systems, battery storage, inverters, and EV charging stations across Burkina Faso and neighboring countries. Certified engineers. Long-term support.",
+    "EcoVolt Solutions conçoit et installe des systèmes photovoltaïques premium, du stockage par batteries, des onduleurs et des bornes de recharge VE à travers le Burkina Faso et les pays voisins. Ingénieurs certifiés. Soutien à long terme.",
   keywords: [
     "EcoVolt Solutions",
-    "solar energy Burkina Faso",
-    "renewable energy Ouagadougou",
-    "solar photovoltaic installation",
-    "battery storage West Africa",
-    "EV charging stations",
-    "energy audit",
+    "énergie solaire Burkina Faso",
+    "énergie renouvelable Ouagadougou",
+    "installation photovoltaïque",
+    "stockage par batteries Afrique de l'Ouest",
+    "bornes de recharge VE",
+    "audit énergétique",
   ],
   authors: [{ name: "EcoVolt Solutions" }],
   openGraph: {
-    title: "EcoVolt Solutions — Renewable Energy Engineered for West Africa",
+    title: "EcoVolt Solutions — Énergie solaire premium pour l'Afrique de l'Ouest",
     description:
-      "Premium solar PV, battery storage, inverters and EV charging, designed and installed by certified engineers in Ouagadougou.",
+      "Solaire photovoltaïque premium, stockage par batteries, onduleurs et recharge VE, conçus et installés par des ingénieurs certifiés à Ouagadougou.",
     siteName: "EcoVolt Solutions",
     type: "website",
-    locale: "en_US",
+    locale: "fr_FR",
   },
   twitter: {
     card: "summary_large_image",
-    title: "EcoVolt Solutions — Renewable Energy Engineered for West Africa",
+    title: "EcoVolt Solutions — Énergie solaire premium pour l'Afrique de l'Ouest",
     description:
-      "Premium solar PV, battery storage, inverters and EV charging, designed and installed by certified engineers.",
+      "Solaire photovoltaïque premium, stockage par batteries, onduleurs et recharge VE, conçus et installés par des ingénieurs certifiés.",
   },
 };
 
@@ -57,7 +57,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning>
       <body
         className={`${manrope.variable} ${jakarta.variable} ${inter.variable} antialiased bg-background text-foreground font-sans overflow-x-hidden`}
       >

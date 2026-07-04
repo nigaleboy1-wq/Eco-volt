@@ -5,11 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Sun, ArrowUpRight } from "lucide-react";
 
 const NAV_LINKS = [
-  { label: "About", href: "#about" },
+  { label: "À propos", href: "#about" },
   { label: "Services", href: "#services" },
-  { label: "Projects", href: "#projects" },
-  { label: "Process", href: "#process" },
-  { label: "Trust", href: "#trust" },
+  { label: "Projets", href: "#projects" },
+  { label: "Processus", href: "#process" },
+  { label: "Confiance", href: "#trust" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -64,12 +64,12 @@ export function Navbar() {
               href="#contact"
               className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-[#0d3b2e] text-white px-5 py-2.5 text-sm font-semibold font-display tracking-tight hover:bg-[#07241c] transition-all duration-300 hover:shadow-lg hover:shadow-[#0d3b2e]/20"
             >
-              Request a Quote
+              Demander un devis
               <ArrowUpRight className="w-4 h-4" />
             </a>
             <button
               onClick={() => setOpen(true)}
-              aria-label="Open menu"
+              aria-label="Ouvrir le menu"
               className="lg:hidden grid place-items-center w-10 h-10 rounded-full border border-black/10 hover:bg-black/5 transition-colors"
             >
               <Menu className="w-5 h-5 text-[#0d3b2e]" />
@@ -93,7 +93,7 @@ export function Navbar() {
               </span>
               <button
                 onClick={() => setOpen(false)}
-                aria-label="Close menu"
+                aria-label="Fermer le menu"
                 className="grid place-items-center w-11 h-11 rounded-full border border-white/15 hover:bg-white/10"
               >
                 <X className="w-5 h-5" />
@@ -120,7 +120,7 @@ export function Navbar() {
                 onClick={() => setOpen(false)}
                 className="btn-solar w-full justify-center"
               >
-                Request a Quote <ArrowUpRight className="w-4 h-4" />
+                Demander un devis <ArrowUpRight className="w-4 h-4" />
               </a>
             </div>
           </motion.div>

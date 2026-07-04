@@ -23,7 +23,7 @@ export function Hero() {
       ref={ref}
       className="relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-[#07241c] text-white"
     >
-      {/* Background image with ken burns + parallax */}
+      {/* Image de fond avec ken burns + parallaxe */}
       <motion.div
         style={{ y: yBg, scale: scaleBg }}
         className="absolute inset-0 z-0"
@@ -37,15 +37,15 @@ export function Hero() {
             backgroundPosition: "center",
           }}
         />
-        {/* Gradient overlays */}
+        {/* Calques de dégradé */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#07241c]/70 via-[#07241c]/55 to-[#07241c]/95" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#07241c]/85 via-transparent to-transparent" />
-        {/* Soft solar glow */}
+        {/* Halo solaire doux */}
         <div className="absolute -top-32 -right-32 w-[55vw] h-[55vw] rounded-full bg-[#f5b91a]/20 blur-[120px] animate-glow" />
         <div className="absolute bottom-0 left-1/3 w-[40vw] h-[40vw] rounded-full bg-[#0d3b2e]/60 blur-[100px]" />
       </motion.div>
 
-      {/* Floating top status bar */}
+      {/* Barre de statut flottante */}
       <motion.div
         initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
@@ -56,10 +56,10 @@ export function Hero() {
           <span className="absolute inline-flex h-full w-full rounded-full bg-[#f5b91a] opacity-75 animate-ping" />
           <span className="relative inline-flex h-2 w-2 rounded-full bg-[#f5b91a]" />
         </span>
-        Ouagadougou · Burkina Faso — Serving West Africa
+        Ouagadougou · Burkina Faso — Au service de l'Afrique de l'Ouest
       </motion.div>
 
-      {/* Hero content */}
+      {/* Contenu du hero */}
       <motion.div
         style={{ y: ySpring, opacity }}
         className="relative z-10 h-full mx-auto max-w-[1400px] px-5 md:px-10 flex flex-col justify-center"
@@ -71,7 +71,7 @@ export function Hero() {
           className="section-label text-white/70 mb-6"
         >
           <span className="w-8 h-px bg-[#f5b91a]" />
-          Renewable Energy, Engineered
+          Énergie renouvelable, ingénierie de précision
         </motion.div>
 
         <h1 className="font-display font-semibold tracking-[-0.035em] leading-[0.92] text-[clamp(2.8rem,8.5vw,8.5rem)] text-balance">
@@ -82,7 +82,7 @@ export function Hero() {
               transition={{ delay: 0.5, duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
               className="block"
             >
-              Powering West
+              Alimenter l'Afrique
             </motion.span>
           </span>
           <span className="block overflow-hidden">
@@ -92,8 +92,8 @@ export function Hero() {
               transition={{ delay: 0.65, duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
               className="block"
             >
-              Africa with{" "}
-              <span className="italic font-light text-[#f5b91a]">sunlight</span>
+              de l'Ouest par le{" "}
+              <span className="italic font-light text-[#f5b91a]">soleil</span>
             </motion.span>
           </span>
         </h1>
@@ -104,10 +104,10 @@ export function Hero() {
           transition={{ delay: 0.95, duration: 0.9 }}
           className="mt-8 max-w-xl text-base md:text-lg font-body text-white/80 leading-relaxed text-pretty"
         >
-          We design, install, and maintain premium solar photovoltaic systems,
-          battery storage, and EV charging infrastructure — engineered by
-          certified professionals for homes, businesses, and institutions across
-          Burkina Faso and the Sahel.
+          Nous concevons, installons et maintenons des systèmes photovoltaïques
+          premium, du stockage par batteries et des infrastructures de recharge
+          VE — ingérées par des professionnels certifiés pour les maisons,
+          entreprises et institutions du Burkina Faso et du Sahel.
         </motion.p>
 
         <motion.div
@@ -117,14 +117,14 @@ export function Hero() {
           className="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-4"
         >
           <a href="#contact" className="btn-solar">
-            Request a Quote <ArrowUpRight className="w-4 h-4" />
+            Demander un devis <ArrowUpRight className="w-4 h-4" />
           </a>
           <a href="#services" className="btn-ghost-light">
-            Explore Services
+            Découvrir nos services
           </a>
         </motion.div>
 
-        {/* Floating spec chips */}
+        {/* Pastilles flottantes */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -132,9 +132,9 @@ export function Hero() {
           className="mt-14 hidden md:grid grid-cols-3 gap-4 max-w-2xl"
         >
           {[
-            { icon: Sun, label: "25-year", sub: "Equipment warranties" },
-            { icon: Zap, label: "Fast install", sub: "Engineered timelines" },
-            { icon: Battery, label: "24/7", sub: "Long-term support" },
+            { icon: Sun, label: "25 ans", sub: "Garanties équipements" },
+            { icon: Zap, label: "Installation rapide", sub: "Délais maîtrisés" },
+            { icon: Battery, label: "24/7", sub: "Support à long terme" },
           ].map((item, i) => (
             <div
               key={i}
@@ -150,7 +150,7 @@ export function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Scroll cue */}
+      {/* Indicateur de défilement */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -159,7 +159,7 @@ export function Hero() {
         className="absolute bottom-7 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-white/70"
       >
         <span className="text-[0.7rem] tracking-[0.25em] uppercase font-display">
-          Scroll
+          Défiler
         </span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
@@ -169,9 +169,9 @@ export function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Side rotated label */}
+      {/* Étiquette latérale rotative */}
       <div className="hidden lg:block absolute right-8 bottom-1/2 translate-y-1/2 z-10 rotate-90 origin-right text-white/50 text-xs tracking-[0.3em] uppercase font-display">
-        EcoVolt Solutions / Est. Ouagadougou
+        EcoVolt Solutions / Établi à Ouagadougou
       </div>
     </section>
   );
