@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Reveal, RevealHeadline } from "./reveal";
 import { Star, Quote, ArrowLeft, ArrowRight } from "lucide-react";
@@ -42,17 +42,41 @@ const TESTIMONIALS = [
 
 export function Testimonials() {
   const [index, setIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [paused, setPaused] = useState(false);
   const t = TESTIMONIALS[index];
 
-  const go = (dir: 1 | -1) => {
-    setIndex(
-      (i) => (i + dir + TESTIMONIALS.length) % TESTIMONIALS.length
-    );
-  };
+  const go = useCallback(
+    (dir: 1 | -1) => {
+      setDirection(dir);
+      setIndex((i) => (i + dir + TESTIMONIALS.length) % TESTIMONIALS.length);
+    },
+    []
+  );
+
+  // Auto-advance
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => go(1), 6000);
+    return () => clearInterval(id);
+  }, [paused, go, index]);
 
   return (
-    <section className="relative bg-[#f6f4ee] py-24 md:py-36 overflow-hidden">
+    <section
+      className="relative bg-[#f6f4ee] py-24 md:py-36 overflow-hidden"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
       <div className="absolute -bottom-32 -left-32 w-[40vw] h-[40vw] rounded-full bg-[#0d3b2e]/5 blur-[120px]" />
+      {/* Décor : grille de points */}
+      <div
+        className="absolute inset-0 opacity-[0.04] pointer-events-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, #0d3b2e 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+        }}
+      />
 
       <div className="relative mx-auto max-w-[1400px] px-5 md:px-10">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
@@ -81,10 +105,15 @@ export function Testimonials() {
               <div className="mt-10 flex items-center gap-4">
                 <div className="flex">
                   {[...Array(5)].map((_, i) => (
-                    <Star
+                    <motion.div
                       key={i}
-                      className="w-5 h-5 text-[#f5b91a] fill-[#f5b91a]"
-                    />
+                      initial={{ opacity: 0, scale: 0 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.4 + i * 0.1, type: "spring" }}
+                    >
+                      <Star className="w-5 h-5 text-[#f5b91a] fill-[#f5b91a]" />
+                    </motion.div>
                   ))}
                 </div>
                 <div>
@@ -98,7 +127,7 @@ export function Testimonials() {
               </div>
             </Reveal>
 
-            {/* Flèches */}
+            {/* Flèches + indicateur auto-play */}
             <div className="mt-10 flex items-center gap-3">
               <button
                 onClick={() => go(-1)}
@@ -122,14 +151,15 @@ export function Testimonials() {
           </div>
 
           {/* Colonne droite : témoignage */}
-          <div className="lg:col-span-8 relative">
+          <div className="lg:col-span-8 relative min-h-[400px]">
             <Quote className="absolute -top-6 -left-2 w-24 h-24 text-[#0d3b2e]/8" />
-            <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait" custom={direction}>
               <motion.blockquote
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -30 }}
+                custom={direction}
+                initial={{ opacity: 0, x: direction > 0 ? 60 : -60 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: direction > 0 ? -60 : 60 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="relative"
               >
@@ -153,19 +183,33 @@ export function Testimonials() {
               </motion.blockquote>
             </AnimatePresence>
 
-            {/* Barre de progression */}
+            {/* Barre de progression auto-play */}
             <div className="mt-12 flex gap-2">
               {TESTIMONIALS.map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => setIndex(i)}
+                  onClick={() => {
+                    setDirection(i > index ? 1 : -1);
+                    setIndex(i);
+                  }}
                   aria-label={`Aller au témoignage ${i + 1}`}
-                  className={`h-1 rounded-full transition-all duration-500 ${
-                    i === index
-                      ? "w-12 bg-[#0d3b2e]"
-                      : "w-6 bg-black/15 hover:bg-black/30"
+                  className={`relative h-1 rounded-full transition-all duration-500 overflow-hidden ${
+                    i === index ? "w-12 bg-[#0d3b2e]/20" : "w-6 bg-black/15 hover:bg-black/30"
                   }`}
-                />
+                >
+                  {i === index && !paused && (
+                    <motion.div
+                      key={`prog-${index}`}
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: 6, ease: "linear" }}
+                      className="absolute inset-0 bg-[#0d3b2e] origin-left"
+                    />
+                  )}
+                  {i === index && paused && (
+                    <div className="absolute inset-0 bg-[#0d3b2e]" />
+                  )}
+                </button>
               ))}
             </div>
           </div>

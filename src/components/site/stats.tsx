@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { Reveal } from "./reveal";
 
 const STATS = [
@@ -9,6 +9,17 @@ const STATS = [
   { value: 18, suffix: " MWc", label: "Puissance installée", sub: "Cumulée" },
   { value: 25, suffix: " ans", label: "Garantie maximale", sub: "Sur équipements" },
   { value: 48, suffix: "h", label: "Délai d'intervention", sub: "Sur le terrain" },
+];
+
+const PARTNERS = [
+  "Canadian Solar",
+  "Huawei",
+  "Victron Energy",
+  "Jinko Solar",
+  "BYD Battery",
+  "Schneider Electric",
+  "Fronius",
+  "SMA Solar",
 ];
 
 function Counter({
@@ -26,10 +37,11 @@ function Counter({
     if (!inView) return;
     let raf = 0;
     const start = performance.now();
-    const duration = 2000;
+    const duration = 2200;
     const tick = (now: number) => {
       const p = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
+      // Easing élastique pour un effet premium
+      const eased = 1 - Math.pow(1 - p, 4);
       setDisplay(Math.round(value * eased));
       if (p < 1) raf = requestAnimationFrame(tick);
     };
@@ -46,8 +58,33 @@ function Counter({
 }
 
 export function Stats() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const yPattern = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+
   return (
-    <section className="relative bg-[#0d3b2e] text-white py-20 md:py-28 overflow-hidden">
+    <section
+      ref={ref}
+      className="relative bg-[#0d3b2e] text-white py-20 md:py-28 overflow-hidden"
+    >
+      {/* Motif géométrique animé en fond */}
+      <motion.div
+        style={{ y: yPattern }}
+        className="absolute inset-0 opacity-[0.04] pointer-events-none"
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(30deg, transparent 48%, #f5b91a 49%, #f5b91a 51%, transparent 52%)",
+            backgroundSize: "60px 100px",
+          }}
+        />
+      </motion.div>
+
       {/* Halo */}
       <div className="absolute top-0 left-1/3 w-[40vw] h-[40vw] rounded-full bg-[#f5b91a]/10 blur-[120px]" />
 
@@ -55,11 +92,11 @@ export function Stats() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-6">
           {STATS.map((s, i) => (
             <Reveal key={s.label} delay={0.1 * i}>
-              <div className="relative">
-                <span className="block font-display font-semibold tracking-tighter text-[clamp(3rem,6vw,5.5rem)] leading-none">
+              <div className="relative group">
+                <span className="block font-display font-semibold tracking-tighter text-[clamp(3rem,6vw,5.5rem)] leading-none bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent group-hover:from-[#f5b91a] group-hover:to-[#ffd95c] transition-all duration-500">
                   <Counter value={s.value} suffix={s.suffix} />
                 </span>
-                <div className="mt-3 h-px w-12 bg-[#f5b91a]" />
+                <div className="mt-3 h-px w-12 bg-[#f5b91a] group-hover:w-20 transition-all duration-500" />
                 <div className="mt-3 font-display text-base font-semibold">
                   {s.label}
                 </div>
@@ -70,27 +107,27 @@ export function Stats() {
             </Reveal>
           ))}
         </div>
+      </div>
 
-        {/* Bande de partenaires */}
-        <Reveal delay={0.4}>
-          <div className="mt-20 pt-12 border-t border-white/10">
-            <div className="text-xs tracking-[0.25em] uppercase text-white/40 font-display text-center mb-8">
-              Équipements certifiés & partenaires internationaux
-            </div>
-            <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-60">
-              {["Canadian Solar", "Huawei", "Victron Energy", "Jinko", "BYD", "Schneider"].map(
-                (p) => (
-                  <span
-                    key={p}
-                    className="font-display text-lg md:text-xl font-semibold tracking-tight"
-                  >
-                    {p}
-                  </span>
-                )
-              )}
-            </div>
+      {/* Marquee partenaires infini */}
+      <div className="relative mt-20 pt-12 border-t border-white/10">
+        <div className="text-center mb-8">
+          <span className="text-xs tracking-[0.25em] uppercase text-white/40 font-display">
+            Équipements certifiés & partenaires internationaux
+          </span>
+        </div>
+        <div className="relative overflow-hidden py-4 [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
+          <div className="flex gap-16 animate-marquee whitespace-nowrap will-change-transform">
+            {[...PARTNERS, ...PARTNERS].map((p, i) => (
+              <span
+                key={i}
+                className="font-display text-2xl md:text-3xl font-semibold tracking-tight text-white/40 hover:text-[#f5b91a] transition-colors cursor-default"
+              >
+                {p}
+              </span>
+            ))}
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

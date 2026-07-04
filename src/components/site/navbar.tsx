@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Sun, ArrowUpRight } from "lucide-react";
+import { Magnetic } from "./magnetic";
 
 const NAV_LINKS = [
   { label: "À propos", href: "#about" },
@@ -32,20 +33,25 @@ export function Navbar() {
         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? "py-3 bg-white/80 backdrop-blur-xl border-b border-black/5"
+            ? "py-3 bg-white/85 backdrop-blur-xl border-b border-black/5 shadow-sm shadow-black/[0.03]"
             : "py-5 bg-transparent"
         }`}
       >
         <div className="mx-auto max-w-[1400px] px-5 md:px-10 flex items-center justify-between">
-          <a href="#top" className="flex items-center gap-2.5 group">
-            <span className="relative grid place-items-center w-9 h-9 rounded-full bg-[#0d3b2e] overflow-hidden">
-              <Sun className="w-4 h-4 text-[#f5b91a]" />
-              <span className="absolute inset-0 rounded-full ring-1 ring-[#f5b91a]/40 group-hover:ring-[#f5b91a] transition-all" />
+          <Magnetic as="a" href="#top" strength={0.2}>
+            <span className="flex items-center gap-2.5 group cursor-pointer">
+              <span className="relative grid place-items-center w-9 h-9 rounded-full bg-[#0d3b2e] overflow-hidden">
+                <Sun className="w-4 h-4 text-[#f5b91a]" />
+                <motion.span
+                  className="absolute inset-0 rounded-full ring-1 ring-[#f5b91a]/40"
+                  whileHover={{ scale: 1.15, opacity: 1 }}
+                />
+              </span>
+              <span className="font-display text-[1.05rem] tracking-tight font-semibold text-[#0d3b2e]">
+                EcoVolt<span className="text-[#f5b91a]">.</span>
+              </span>
             </span>
-            <span className="font-display text-[1.05rem] tracking-tight font-semibold text-[#0d3b2e]">
-              EcoVolt<span className="text-[#f5b91a]">.</span>
-            </span>
-          </a>
+          </Magnetic>
 
           <nav className="hidden lg:flex items-center gap-9">
             {NAV_LINKS.map((link) => (
@@ -60,13 +66,12 @@ export function Navbar() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <a
-              href="#contact"
-              className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-[#0d3b2e] text-white px-5 py-2.5 text-sm font-semibold font-display tracking-tight hover:bg-[#07241c] transition-all duration-300 hover:shadow-lg hover:shadow-[#0d3b2e]/20"
-            >
-              Demander un devis
-              <ArrowUpRight className="w-4 h-4" />
-            </a>
+            <Magnetic as="a" href="#contact" strength={0.25} className="hidden md:block">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#0d3b2e] text-white px-5 py-2.5 text-sm font-semibold font-display tracking-tight hover:bg-[#07241c] transition-all duration-300 hover:shadow-lg hover:shadow-[#0d3b2e]/20 cursor-pointer">
+                Demander un devis
+                <ArrowUpRight className="w-4 h-4" />
+              </span>
+            </Magnetic>
             <button
               onClick={() => setOpen(true)}
               aria-label="Ouvrir le menu"

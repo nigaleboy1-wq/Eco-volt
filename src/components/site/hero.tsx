@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { ArrowDown, ArrowUpRight, Sun, Zap, Battery } from "lucide-react";
+import { Magnetic } from "./magnetic";
 
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -11,21 +12,29 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
 
-  const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const scaleBg = useTransform(scrollYProgress, [0, 1], [1.1, 1.35]);
-  const yText = useTransform(scrollYProgress, [0, 1], ["0%", "-40%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  // Parallaxe multi-couches (depth layers)
+  const yBgFar = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const yBgMid = useTransform(scrollYProgress, [0, 1], ["0%", "35%"]);
+  const yBgNear = useTransform(scrollYProgress, [0, 1], ["0%", "55%"]);
+  const scaleBg = useTransform(scrollYProgress, [0, 1], [1.1, 1.4]);
+  const yText = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
+  const blur = useTransform(scrollYProgress, [0, 0.8], [0, 6]);
   const ySpring = useSpring(yText, { stiffness: 80, damping: 20 });
+
+  // Halo solaire suit le scroll
+  const haloX = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const haloOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.3]);
 
   return (
     <section
       id="top"
       ref={ref}
-      className="relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-[#07241c] text-white"
+      className="relative h-[110svh] min-h-[680px] w-full overflow-hidden bg-[#07241c] text-white"
     >
-      {/* Image de fond avec ken burns + parallaxe */}
+      {/* === Couche 1 : image de fond avec ken burns + parallaxe lent === */}
       <motion.div
-        style={{ y: yBg, scale: scaleBg }}
+        style={{ y: yBgFar, scale: scaleBg }}
         className="absolute inset-0 z-0"
       >
         <div
@@ -37,15 +46,59 @@ export function Hero() {
             backgroundPosition: "center",
           }}
         />
-        {/* Calques de dégradé */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#07241c]/70 via-[#07241c]/55 to-[#07241c]/95" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#07241c]/75 via-[#07241c]/55 to-[#07241c]/95" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#07241c]/85 via-transparent to-transparent" />
-        {/* Halo solaire doux */}
-        <div className="absolute -top-32 -right-32 w-[55vw] h-[55vw] rounded-full bg-[#f5b91a]/20 blur-[120px] animate-glow" />
+      </motion.div>
+
+      {/* === Couche 2 : halos lumineux (parallaxe moyen) === */}
+      <motion.div
+        style={{ y: yBgMid, opacity: haloOpacity }}
+        className="absolute inset-0 z-[1] pointer-events-none"
+      >
+        <motion.div
+          style={{ x: haloX }}
+          className="absolute -top-32 -right-32 w-[55vw] h-[55vw] rounded-full bg-[#f5b91a]/20 blur-[120px] animate-glow"
+        />
         <div className="absolute bottom-0 left-1/3 w-[40vw] h-[40vw] rounded-full bg-[#0d3b2e]/60 blur-[100px]" />
       </motion.div>
 
-      {/* Barre de statut flottante */}
+      {/* === Couche 3 : particules solaires (parallaxe rapide) === */}
+      <motion.div
+        style={{ y: yBgNear }}
+        className="absolute inset-0 z-[2] pointer-events-none"
+      >
+        {[
+          { left: "12%", top: "30%", size: 4, delay: 0 },
+          { left: "85%", top: "20%", size: 6, delay: 0.5 },
+          { left: "70%", top: "65%", size: 3, delay: 1 },
+          { left: "25%", top: "75%", size: 5, delay: 1.5 },
+          { left: "50%", top: "15%", size: 4, delay: 0.8 },
+        ].map((p, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full bg-[#f5b91a]"
+            style={{
+              left: p.left,
+              top: p.top,
+              width: p.size,
+              height: p.size,
+            }}
+            animate={{
+              y: [0, -30, 0],
+              opacity: [0.2, 0.9, 0.2],
+              scale: [1, 1.4, 1],
+            }}
+            transition={{
+              duration: 4 + i,
+              repeat: Infinity,
+              delay: p.delay,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+      </motion.div>
+
+      {/* === Badge de localisation flottant === */}
       <motion.div
         initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
@@ -59,9 +112,9 @@ export function Hero() {
         Ouagadougou · Burkina Faso — Au service de l'Afrique de l'Ouest
       </motion.div>
 
-      {/* Contenu du hero */}
+      {/* === Contenu principal avec parallaxe texte === */}
       <motion.div
-        style={{ y: ySpring, opacity }}
+        style={{ y: ySpring, opacity, filter: blur ? `blur(${blur}px)` : undefined }}
         className="relative z-10 h-full mx-auto max-w-[1400px] px-5 md:px-10 flex flex-col justify-center"
       >
         <motion.div
@@ -116,19 +169,22 @@ export function Hero() {
           transition={{ delay: 1.1, duration: 0.9 }}
           className="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-4"
         >
-          <a href="#contact" className="btn-solar">
+          <Magnetic as="a" href="#contact" className="btn-solar">
             Demander un devis <ArrowUpRight className="w-4 h-4" />
-          </a>
-          <a href="#services" className="btn-ghost-light">
+          </Magnetic>
+          <Magnetic as="a" href="#services" className="btn-ghost-light">
             Découvrir nos services
-          </a>
+          </Magnetic>
         </motion.div>
 
-        {/* Pastilles flottantes */}
+        {/* === Pastilles flottantes avec stagger === */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.4, duration: 1 }}
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.15, delayChildren: 1.4 } },
+          }}
           className="mt-14 hidden md:grid grid-cols-3 gap-4 max-w-2xl"
         >
           {[
@@ -136,21 +192,26 @@ export function Hero() {
             { icon: Zap, label: "Installation rapide", sub: "Délais maîtrisés" },
             { icon: Battery, label: "24/7", sub: "Support à long terme" },
           ].map((item, i) => (
-            <div
+            <motion.div
               key={i}
-              className="glass rounded-2xl p-4 hover:bg-white/10 transition-colors"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="glass rounded-2xl p-4 hover:bg-white/10 transition-colors group"
             >
-              <item.icon className="w-4 h-4 text-[#f5b91a] mb-2" />
+              <item.icon className="w-4 h-4 text-[#f5b91a] mb-2 group-hover:scale-110 transition-transform" />
               <div className="font-display text-base font-semibold">
                 {item.label}
               </div>
               <div className="text-xs text-white/65 mt-0.5">{item.sub}</div>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
       </motion.div>
 
-      {/* Indicateur de défilement */}
+      {/* === Indicateur de défilement === */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -169,7 +230,7 @@ export function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Étiquette latérale rotative */}
+      {/* === Étiquette latérale verticale === */}
       <div className="hidden xl:flex items-center gap-3 absolute right-6 top-1/2 -translate-y-1/2 z-10 [writing-mode:vertical-rl] rotate-180 text-white/40 text-[0.7rem] tracking-[0.3em] uppercase font-display">
         EcoVolt Solutions · Établi à Ouagadougou
       </div>

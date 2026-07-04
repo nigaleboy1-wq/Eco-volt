@@ -45,101 +45,180 @@ const STEPS = [
 ];
 
 export function Process() {
-  const ref = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start center", "end center"],
+    target: containerRef,
+    offset: ["start start", "end end"],
   });
-  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
+  // Défilement horizontal des étapes
+  const x = useTransform(scrollYProgress, [0, 1], ["5%", "-78%"]);
+  // Ligne de progression horizontale
+  const lineWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
     <section
       id="process"
-      ref={ref}
-      className="relative bg-white py-24 md:py-36 overflow-hidden"
+      className="relative bg-white overflow-hidden"
     >
-      <div className="mx-auto max-w-[1400px] px-5 md:px-10">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
-          {/* Colonne gauche : titre sticky */}
-          <div className="lg:col-span-4">
-            <div className="lg:sticky lg:top-24">
-              <Reveal>
-                <span className="section-label text-[#0d3b2e]">
-                  <span className="w-8 h-px bg-[#f5b91a]" />
-                  Notre processus
-                </span>
-              </Reveal>
-              <h2 className="mt-6 font-display font-semibold tracking-[-0.03em] leading-[1.02] text-[clamp(2rem,4vw,3.4rem)] text-[#0a1f1a] text-balance">
-                <RevealHeadline text="Six étapes," />{" "}
-                <RevealHeadline text="zéro surprise." delay={0.1} />
-              </h2>
-              <Reveal delay={0.2}>
-                <p className="mt-6 text-base text-[#5a6b65] font-body leading-relaxed">
-                  Une méthode éprouvée qui sécurise chaque projet, du premier
-                  appel à la maintenance pluriannuelle. Vous savez à tout moment
-                  où en est votre installation et ce qui reste à venir.
-                </p>
-              </Reveal>
-              <Reveal delay={0.3}>
-                <div className="mt-8 p-5 rounded-2xl bg-[#e8f1ec] border border-[#0d3b2e]/10">
-                  <div className="font-display text-sm font-semibold text-[#0d3b2e]">
-                    Durée moyenne d'un projet résidentiel
-                  </div>
-                  <div className="mt-1 font-display text-3xl font-semibold text-[#0a1f1a]">
-                    3 à 6 semaines
-                  </div>
-                  <div className="text-xs text-[#5a6b65] mt-1">
-                    Du premier contact à la mise en service
-                  </div>
-                </div>
-              </Reveal>
+      {/* En-tête */}
+      <div className="py-24 md:py-32 mx-auto max-w-[1400px] px-5 md:px-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+          <div>
+            <Reveal>
+              <span className="section-label text-[#0d3b2e]">
+                <span className="w-8 h-px bg-[#f5b91a]" />
+                Notre processus
+              </span>
+            </Reveal>
+            <h2 className="mt-6 font-display font-semibold tracking-[-0.03em] leading-[1.02] text-[clamp(2rem,4.5vw,3.6rem)] text-[#0a1f1a] text-balance">
+              <RevealHeadline text="Six étapes," />{" "}
+              <RevealHeadline text="zéro surprise." delay={0.1} />
+            </h2>
+          </div>
+          <Reveal delay={0.2}>
+            <p className="text-base text-[#5a6b65] font-body leading-relaxed max-w-sm">
+              Une méthode éprouvée qui sécurise chaque projet, du premier appel
+              à la maintenance pluriannuelle. Vous savez à tout moment où en
+              est votre installation.
+            </p>
+          </Reveal>
+        </div>
+      </div>
+
+      {/* Section sticky horizontale */}
+      <div
+        ref={containerRef}
+        className="relative"
+        style={{ height: "360vh" }}
+      >
+        <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
+          {/* Ligne de progression en haut */}
+          <div className="absolute top-[18%] left-0 right-0 px-5 md:px-10">
+            <div className="mx-auto max-w-[1400px]">
+              <div className="relative h-px bg-black/10">
+                <motion.div
+                  style={{ width: lineWidth }}
+                  className="absolute left-0 top-0 h-px bg-gradient-to-r from-[#0d3b2e] to-[#f5b91a]"
+                />
+              </div>
             </div>
           </div>
 
-          {/* Colonne droite : timeline */}
-          <div className="lg:col-span-8 relative">
-            {/* Ligne verticale de fond */}
-            <div className="absolute left-[28px] md:left-[44px] top-2 bottom-2 w-px bg-black/10" />
-            {/* Ligne animée */}
-            <motion.div
-              style={{ height: lineHeight }}
-              className="absolute left-[28px] md:left-[44px] top-2 w-px bg-gradient-to-b from-[#0d3b2e] to-[#f5b91a]"
-            />
+          <motion.div
+            style={{ x }}
+            className="relative flex gap-6 md:gap-10 px-5 md:px-10 will-change-transform"
+          >
+            {STEPS.map((step, i) => (
+              <StepCard key={step.num} step={step} index={i} total={STEPS.length} />
+            ))}
+          </motion.div>
 
-            <div className="flex flex-col gap-12 md:gap-16">
-              {STEPS.map((step, i) => (
-                <Reveal key={step.num} delay={0.05 * i}>
-                  <div className="relative pl-20 md:pl-28">
-                    {/* Nœud */}
-                    <div className="absolute left-0 top-0 grid place-items-center w-[58px] md:w-[90px]">
-                      <div className="relative grid place-items-center w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-white border border-black/10 shadow-lg shadow-[#0d3b2e]/10">
-                        <step.icon className="w-5 h-5 md:w-6 md:h-6 text-[#0d3b2e]" />
-                        <span className="absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full bg-[#f5b91a] text-[#07241c] grid place-items-center text-[0.7rem] font-display font-bold border-2 border-white">
-                          {i + 1}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col md:flex-row md:items-baseline md:gap-6">
-                      <span className="font-display text-5xl md:text-6xl font-semibold text-[#0d3b2e]/10 tracking-tighter leading-none">
-                        {step.num}
-                      </span>
-                      <div className="mt-2 md:mt-0 flex-1">
-                        <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-tight text-[#0a1f1a]">
-                          {step.title}
-                        </h3>
-                        <p className="mt-3 text-base text-[#5a6b65] font-body leading-relaxed max-w-xl">
-                          {step.desc}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </Reveal>
-              ))}
+          {/* Indicateur progression bas */}
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3">
+            <span className="text-[0.65rem] tracking-[0.25em] uppercase text-[#5a6b65] font-display">
+              Étapes
+            </span>
+            <div className="w-32 h-1 bg-black/10 rounded-full overflow-hidden">
+              <motion.div
+                style={{ scaleX: scrollYProgress }}
+                className="h-full bg-[#0d3b2e] origin-left"
+              />
             </div>
           </div>
         </div>
       </div>
+
+      {/* Carte récapitulative bas */}
+      <div className="py-16 md:py-24 mx-auto max-w-[1400px] px-5 md:px-10">
+        <Reveal>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="md:col-span-2 p-8 md:p-10 rounded-3xl bg-[#0d3b2e] text-white relative overflow-hidden">
+              <div className="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-[#f5b91a]/20 blur-[80px]" />
+              <div className="relative">
+                <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-tight">
+                  Une méthode éprouvée, des résultats garantis
+                </h3>
+                <p className="mt-4 text-white/70 font-body leading-relaxed max-w-2xl">
+                  Chaque étape est documentée, chaque livraison est testée, chaque
+                  client est formé. C'est cette rigueur qui nous permet de garantir
+                  la performance de vos installations sur la durée.
+                </p>
+              </div>
+            </div>
+            <div className="p-8 rounded-3xl bg-[#f5b91a] text-[#07241c] flex flex-col justify-between">
+              <div>
+                <div className="font-display text-sm font-semibold uppercase tracking-wider">
+                  Durée moyenne
+                </div>
+                <div className="mt-3 font-display text-5xl font-semibold tracking-tight leading-none">
+                  3 à 6
+                </div>
+                <div className="mt-1 font-display text-lg font-medium">
+                  semaines
+                </div>
+              </div>
+              <div className="text-xs mt-4 opacity-80">
+                Du premier contact à la mise en service — projet résidentiel type
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </div>
     </section>
+  );
+}
+
+function StepCard({
+  step,
+  index,
+  total,
+}: {
+  step: (typeof STEPS)[number];
+  index: number;
+  total: number;
+}) {
+  return (
+    <div className="shrink-0 w-[80vw] md:w-[40vw] lg:w-[30vw] relative">
+      <div className="relative bg-[#f6f4ee] rounded-3xl p-8 md:p-10 border border-black/[0.06] min-h-[60vh] flex flex-col justify-between overflow-hidden group hover:border-[#0d3b2e]/20 transition-colors">
+        {/* Décor : grand numéro en filigrane */}
+        <span className="absolute -top-6 -right-2 font-display text-[12rem] font-semibold text-[#0d3b2e]/5 leading-none pointer-events-none">
+          {step.num}
+        </span>
+
+        {/* Halo qui apparaît au hover */}
+        <div className="absolute -bottom-20 -left-20 w-60 h-60 rounded-full bg-[#f5b91a]/0 group-hover:bg-[#f5b91a]/10 blur-[80px] transition-all duration-700" />
+
+        <div className="relative">
+          {/* Icône */}
+          <div className="relative inline-grid place-items-center w-16 h-16 rounded-2xl bg-white border border-black/10 shadow-lg shadow-[#0d3b2e]/10 mb-6">
+            <step.icon className="w-6 h-6 text-[#0d3b2e]" />
+            <span className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-[#f5b91a] text-[#07241c] grid place-items-center text-xs font-display font-bold border-2 border-[#f6f4ee]">
+              {index + 1}
+            </span>
+          </div>
+
+          {/* Titre */}
+          <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-tight text-[#0a1f1a]">
+            {step.title}
+          </h3>
+
+          {/* Description */}
+          <p className="mt-4 text-base text-[#5a6b65] font-body leading-relaxed">
+            {step.desc}
+          </p>
+        </div>
+
+        {/* Footer de la carte */}
+        <div className="relative mt-8 pt-6 border-t border-black/10 flex items-center justify-between">
+          <span className="text-xs font-display font-semibold text-[#0d3b2e] tracking-widest">
+            ÉTAPE {step.num}
+          </span>
+          <span className="text-xs text-[#5a6b65] font-body">
+            {index + 1} / {total}
+          </span>
+        </div>
+      </div>
+    </div>
   );
 }

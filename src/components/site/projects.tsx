@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { Reveal, RevealHeadline } from "./reveal";
 import { ArrowUpRight, MapPin } from "lucide-react";
 
@@ -58,7 +58,6 @@ const PROJECTS = [
 
 export function Projects() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -66,11 +65,8 @@ export function Projects() {
   });
 
   // Défilement horizontal piloté par le scroll vertical
-  const x = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["0%", "-72%"]
-  );
+  // -68% pour laisser la carte CTA finale bien visible
+  const x = useTransform(scrollYProgress, [0, 1], ["2%", "-72%"]);
 
   return (
     <section
@@ -106,21 +102,28 @@ export function Projects() {
       <div
         ref={containerRef}
         className="relative"
-        style={{ height: "320vh" }}
+        style={{ height: "340vh" }}
       >
         <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
           <motion.div
-            ref={listRef}
             style={{ x }}
-            className="relative flex gap-6 md:gap-10 px-5 md:px-10 will-change-transform"
+            className="relative flex gap-6 md:gap-8 px-5 md:px-10 will-change-transform"
           >
             {PROJECTS.map((p, i) => (
-              <ProjectCard key={i} project={p} index={i} />
+              <ProjectCard
+                key={i}
+                project={p}
+                index={i}
+                total={PROJECTS.length}
+                progress={scrollYProgress}
+              />
             ))}
 
             {/* Carte CTA finale */}
-            <div className="shrink-0 w-[80vw] md:w-[36vw] lg:w-[28vw] aspect-[4/5] rounded-3xl bg-[#07241c] text-white p-10 flex flex-col justify-between">
-              <div>
+            <div className="shrink-0 w-[80vw] md:w-[36vw] lg:w-[28vw] aspect-[4/5] rounded-3xl bg-[#07241c] text-white p-10 flex flex-col justify-between relative overflow-hidden group">
+              {/* Halo animé */}
+              <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-[#f5b91a]/20 blur-[80px] group-hover:bg-[#f5b91a]/40 transition-all duration-700" />
+              <div className="relative">
                 <span className="section-label text-white/60">
                   <span className="w-8 h-px bg-[#f5b91a]" />
                   Votre tour
@@ -135,14 +138,14 @@ export function Projects() {
               </div>
               <a
                 href="#contact"
-                className="btn-solar self-start"
+                className="btn-solar self-start relative z-10"
               >
                 Démarrer <ArrowUpRight className="w-4 h-4" />
               </a>
             </div>
           </motion.div>
 
-          {/* Indicateur de progression horizontal */}
+          {/* Indicateur de progression horizontal avec label */}
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
             <span className="text-[0.65rem] tracking-[0.25em] uppercase text-[#5a6b65] font-display">
               Faites défiler
@@ -150,7 +153,7 @@ export function Projects() {
             <div className="w-48 h-1 bg-black/10 rounded-full overflow-hidden">
               <motion.div
                 style={{ scaleX: scrollYProgress }}
-                className="h-full bg-[#0d3b2e] origin-left"
+                className="h-full bg-gradient-to-r from-[#0d3b2e] to-[#f5b91a] origin-left"
               />
             </div>
           </div>
@@ -163,12 +166,36 @@ export function Projects() {
 function ProjectCard({
   project,
   index,
+  total,
+  progress,
 }: {
   project: (typeof PROJECTS)[number];
   index: number;
+  total: number;
+  progress: MotionValue<number>;
 }) {
+  // Calcul de l'opacité et du scale en fonction de la position dans le scroll
+  // Chaque carte a une "fenêtre" d'activation
+  const segLen = 1 / (total + 1);
+  const start = index * segLen;
+  const center = start + segLen / 2;
+
+  const scale = useTransform(
+    progress,
+    [start - segLen, center, start + segLen + segLen],
+    [0.85, 1, 0.85]
+  );
+  const opacity = useTransform(
+    progress,
+    [start - segLen, start, center, start + segLen + segLen],
+    [0.4, 0.7, 1, 0.7]
+  );
+
   return (
-    <div className="group shrink-0 w-[80vw] md:w-[44vw] lg:w-[34vw] aspect-[4/5] relative rounded-3xl overflow-hidden bg-[#07241c]">
+    <motion.div
+      style={{ scale, opacity }}
+      className="group shrink-0 w-[80vw] md:w-[44vw] lg:w-[34vw] aspect-[4/5] relative rounded-3xl overflow-hidden bg-[#07241c]"
+    >
       <div
         className="absolute inset-0 transition-transform duration-[1.5s] ease-out group-hover:scale-110"
         style={{
@@ -181,7 +208,7 @@ function ProjectCard({
 
       {/* Numéro flottant */}
       <div className="absolute top-6 left-6 font-display text-sm text-white/70 tracking-widest">
-        {String(index + 1).padStart(2, "0")} / {String(PROJECTS.length).padStart(2, "0")}
+        {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
       </div>
 
       {/* Catégorie */}
@@ -191,7 +218,7 @@ function ProjectCard({
         </span>
       </div>
 
-      {/* Contenu bas */}
+      {/* Contenu bas avec animation au hover */}
       <div className="absolute bottom-0 left-0 right-0 p-7 text-white">
         <div className="flex items-center gap-2 text-xs text-white/70 mb-2 font-body">
           <MapPin className="w-3.5 h-3.5" />
@@ -205,13 +232,20 @@ function ProjectCard({
             {project.size}
           </span>
           <motion.div
-            whileHover={{ rotate: 45 }}
+            whileHover={{ rotate: 45, scale: 1.1 }}
             className="grid place-items-center w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20"
           >
             <ArrowUpRight className="w-4 h-4" />
           </motion.div>
         </div>
+
+        {/* Ligne dorée qui se dessine au hover */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          className="mt-4 h-px bg-gradient-to-r from-[#f5b91a] to-transparent origin-left"
+        />
       </div>
-    </div>
+    </motion.div>
   );
 }
