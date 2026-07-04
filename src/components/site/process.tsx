@@ -98,7 +98,7 @@ export function Process() {
     >
       <div
         ref={containerRef}
-        style={{ height: `${(STEPS.length + 1) * 100}vh` }}
+        style={{ height: `${(STEPS.length + 1) * 80}vh` }}
         className="relative"
       >
         {/* Vue sticky */}
@@ -116,7 +116,7 @@ export function Process() {
               >
                 {/* Ligne dorée + Label */}
                 <Reveal>
-                  <div className="flex items-center gap-4 mb-6">
+                  <div className="flex items-center gap-4 mb-5">
                     <span className="w-12 h-px bg-[#f5b91a]" />
                     <span className="text-xs font-display font-semibold tracking-[0.3em] uppercase text-[#0d3b2e]">
                       Notre processus · 06 étapes
@@ -135,11 +135,11 @@ export function Process() {
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   transition={{ delay: 0.35, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                  className="mt-8 h-px bg-gradient-to-r from-[#0d3b2e]/30 via-[#f5b91a]/40 to-transparent origin-left max-w-3xl"
+                  className="mt-6 h-px bg-gradient-to-r from-[#0d3b2e]/30 via-[#f5b91a]/40 to-transparent origin-left max-w-3xl"
                 />
 
                 {/* Grille : description + badge */}
-                <div className="mt-8 grid lg:grid-cols-12 gap-6 items-end max-w-5xl">
+                <div className="mt-6 grid lg:grid-cols-12 gap-6 items-end max-w-5xl">
                   <Reveal delay={0.25} className="lg:col-span-7">
                     <p className="text-base md:text-lg text-[#5a6b65] font-body leading-relaxed text-pretty">
                       Une méthode éprouvée qui sécurise chaque projet, du premier
@@ -160,7 +160,7 @@ export function Process() {
 
                 {/* Aperçu des 6 étapes en bas */}
                 <Reveal delay={0.45}>
-                  <div className="mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 max-w-4xl">
+                  <div className="mt-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 max-w-4xl">
                     {STEPS.map((s, i) => (
                       <div key={s.num} className="flex items-center gap-2">
                         <span className="text-[#f5b91a] font-display font-bold text-sm">{s.num}</span>

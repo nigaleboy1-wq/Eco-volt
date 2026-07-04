@@ -83,7 +83,7 @@ export function Projects() {
     <section
       id="projects"
       ref={ref}
-      className="relative bg-[#f6f4ee] py-16 md:py-20 overflow-hidden"
+      className="relative bg-[#f6f4ee] py-14 md:py-20 overflow-hidden"
     >
       {/* Décor : grand chiffre en filigrane */}
       <div className="absolute -top-10 right-0 font-display text-[16rem] md:text-[24rem] font-semibold text-[#0d3b2e]/[0.03] leading-none pointer-events-none select-none">

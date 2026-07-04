@@ -34,7 +34,7 @@ export function Footer() {
 
       {/* Bande supérieure : CTA géant */}
       <div className="relative border-b border-white/10">
-        <div className="mx-auto max-w-[1400px] px-5 md:px-10 py-16 md:py-24">
+        <div className="mx-auto max-w-[1400px] px-5 md:px-10 py-12 md:py-16">
           <Reveal>
             <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8">
               <h2 className="font-display font-semibold tracking-[-0.035em] leading-[0.95] text-[clamp(2rem,5vw,4.5rem)] text-balance max-w-3xl">
@@ -50,8 +50,8 @@ export function Footer() {
       </div>
 
       {/* Bande principale */}
-      <div className="relative mx-auto max-w-[1400px] px-5 md:px-10 py-16 md:py-20">
-        <div className="grid lg:grid-cols-12 gap-12">
+      <div className="relative mx-auto max-w-[1400px] px-5 md:px-10 py-12 md:py-16">
+        <div className="grid lg:grid-cols-12 gap-10">
           {/* Brand */}
           <div className="lg:col-span-4">
             <a href="#top" className="flex items-center gap-2.5">

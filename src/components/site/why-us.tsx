@@ -65,7 +65,7 @@ export function WhyUs() {
     <section
       id="trust"
       ref={ref}
-      className="relative bg-[#07241c] text-white py-20 md:py-28 overflow-hidden"
+      className="relative bg-[#07241c] text-white py-14 md:py-20 overflow-hidden"
     >
       {/* Halo solaire */}
       <div className="absolute top-1/4 -left-32 w-[40vw] h-[40vw] rounded-full bg-[#0d3b2e] blur-[120px] opacity-60" />

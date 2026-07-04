@@ -139,7 +139,7 @@ export function Services() {
       {/* Container avec hauteur = en-tête (100vh) + 7 services (100vh chacun) */}
       <div
         ref={containerRef}
-        style={{ height: `${(SERVICES.length + 1) * 100}vh` }}
+        style={{ height: `${(SERVICES.length + 1) * 80}vh` }}
         className="relative"
       >
         {/* Vue sticky qui reste fixée pendant tout le scroll */}
@@ -157,7 +157,7 @@ export function Services() {
               >
                 {/* Ligne dorée + Label */}
                 <Reveal>
-                  <div className="flex items-center gap-4 mb-6">
+                  <div className="flex items-center gap-4 mb-5">
                     <span className="w-12 h-px bg-[#f5b91a]" />
                     <span className="text-xs font-display font-semibold tracking-[0.3em] uppercase text-[#0d3b2e]">
                       Nos services · 07 expertises
@@ -178,11 +178,11 @@ export function Services() {
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                  className="mt-8 h-px bg-gradient-to-r from-[#0d3b2e]/30 via-[#f5b91a]/40 to-transparent origin-left max-w-3xl"
+                  className="mt-6 h-px bg-gradient-to-r from-[#0d3b2e]/30 via-[#f5b91a]/40 to-transparent origin-left max-w-3xl"
                 />
 
                 {/* Grille : description + badge */}
-                <div className="mt-8 grid lg:grid-cols-12 gap-6 items-end max-w-5xl">
+                <div className="mt-6 grid lg:grid-cols-12 gap-6 items-end max-w-5xl">
                   <Reveal delay={0.3} className="lg:col-span-7">
                     <p className="text-base md:text-lg text-[#5a6b65] font-body leading-relaxed text-pretty">
                       De l'étude initiale à la maintenance pluriannuelle, nous
@@ -204,7 +204,7 @@ export function Services() {
 
                 {/* Aperçu des 7 services en bas */}
                 <Reveal delay={0.5}>
-                  <div className="mt-12 flex flex-wrap gap-x-6 gap-y-2 max-w-4xl">
+                  <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 max-w-4xl">
                     {SERVICES.map((s, i) => (
                       <div key={s.id} className="flex items-center gap-2 text-sm text-[#5a6b65] font-body">
                         <span className="text-[#f5b91a] font-display font-semibold text-xs">{s.num}</span>

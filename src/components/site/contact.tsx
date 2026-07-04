@@ -76,7 +76,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="relative bg-white py-20 md:py-28 overflow-hidden"
+      className="relative bg-white py-14 md:py-20 overflow-hidden"
     >
       {/* Décor */}
       <div className="absolute top-0 right-0 w-[40vw] h-[40vw] rounded-full bg-[#0d3b2e]/5 blur-[120px]" />

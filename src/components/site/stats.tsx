@@ -68,7 +68,7 @@ export function Stats() {
   return (
     <section
       ref={ref}
-      className="relative bg-[#0d3b2e] text-white py-16 md:py-24 overflow-hidden"
+      className="relative bg-[#0d3b2e] text-white py-14 md:py-20 overflow-hidden"
     >
       {/* Motif géométrique animé en fond */}
       <motion.div

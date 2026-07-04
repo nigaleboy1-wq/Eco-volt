@@ -41,7 +41,7 @@ export function About() {
     <section
       id="about"
       ref={ref}
-      className="relative bg-[#f6f4ee] py-20 md:py-28 overflow-hidden"
+      className="relative bg-[#f6f4ee] py-14 md:py-20 overflow-hidden"
     >
       {/* Décor */}
       <div className="absolute top-20 right-0 w-[40vw] h-[40vw] rounded-full bg-[#0d3b2e]/5 blur-[120px]" />
