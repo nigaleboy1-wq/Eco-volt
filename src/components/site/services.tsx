@@ -196,9 +196,9 @@ export function Services() {
                 transition={{ duration: 0.4 }}
                 className="absolute inset-0 mx-auto max-w-[1400px] px-5 md:px-10"
               >
-                <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 h-full items-center py-16">
+                <div className="grid lg:grid-cols-12 gap-6 lg:gap-10 h-full items-center py-12 md:py-10">
                   {/* Colonne gauche : image */}
-                  <div className="lg:col-span-7 relative h-[40vh] md:h-[55vh] lg:h-[70vh] rounded-3xl overflow-hidden bg-[#07241c] shadow-2xl shadow-[#0d3b2e]/20">
+                  <div className="lg:col-span-6 relative h-[38vh] md:h-[52vh] lg:h-[68vh] rounded-3xl overflow-hidden bg-[#07241c] shadow-2xl shadow-[#0d3b2e]/20">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={currentService.id}
@@ -253,7 +253,7 @@ export function Services() {
                   </div>
 
                   {/* Colonne droite : contenu */}
-                  <div className="lg:col-span-5 flex flex-col justify-center">
+                  <div className="lg:col-span-6 flex flex-col justify-center">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={currentService.id}
@@ -265,15 +265,15 @@ export function Services() {
                         <div className="text-xs font-display font-semibold text-[#f5b91a] tracking-widest uppercase mb-4">
                           {currentService.short}
                         </div>
-                        <h3 className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-[#0a1f1a] leading-[1.05] text-balance">
+                        <h3 className="font-display text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-[#0a1f1a] leading-[1.08] text-balance">
                           {currentService.title}
                         </h3>
-                        <p className="mt-5 text-base md:text-lg text-[#5a6b65] font-body leading-relaxed text-pretty">
+                        <p className="mt-4 text-sm md:text-base text-[#5a6b65] font-body leading-relaxed text-pretty">
                           {currentService.desc}
                         </p>
 
                         {/* Points clés */}
-                        <div className="mt-7 flex flex-wrap gap-2">
+                        <div className="mt-5 flex flex-wrap gap-2">
                           {currentService.points.map((p, i) => (
                             <motion.span
                               key={p}
@@ -292,22 +292,20 @@ export function Services() {
                 </div>
 
                 {/* Indicateur de progression bas */}
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-display font-semibold text-[#0d3b2e]">
-                      {String(activeStep).padStart(2, "0")}
-                    </span>
-                    <div className="w-32 h-1 bg-black/10 rounded-full overflow-hidden">
-                      <motion.div
-                        style={{ width: progressWidth }}
-                        className="h-full bg-gradient-to-r from-[#0d3b2e] to-[#f5b91a] rounded-full"
-                      />
-                    </div>
-                    <span className="text-xs font-display text-[#5a6b65]">
-                      {String(SERVICES.length).padStart(2, "0")}
-                    </span>
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3">
+                  <span className="text-xs font-display font-semibold text-[#0d3b2e]">
+                    {String(activeStep).padStart(2, "0")}
+                  </span>
+                  <div className="w-32 h-1 bg-black/10 rounded-full overflow-hidden">
+                    <motion.div
+                      style={{ width: progressWidth }}
+                      className="h-full bg-gradient-to-r from-[#0d3b2e] to-[#f5b91a] rounded-full"
+                    />
                   </div>
-                  <span className="text-[0.65rem] tracking-[0.25em] uppercase text-[#5a6b65] font-display">
+                  <span className="text-xs font-display text-[#5a6b65]">
+                    {String(SERVICES.length).padStart(2, "0")}
+                  </span>
+                  <span className="text-[0.65rem] tracking-[0.2em] uppercase text-[#5a6b65] font-display ml-2">
                     Service {activeStep} / {SERVICES.length}
                   </span>
                 </div>

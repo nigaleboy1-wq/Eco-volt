@@ -83,7 +83,7 @@ export function Projects() {
     <section
       id="projects"
       ref={ref}
-      className="relative bg-[#f6f4ee] py-24 md:py-36 overflow-hidden"
+      className="relative bg-[#f6f4ee] py-16 md:py-20 overflow-hidden"
     >
       {/* Décor : grand chiffre en filigrane */}
       <div className="absolute -top-10 right-0 font-display text-[16rem] md:text-[24rem] font-semibold text-[#0d3b2e]/[0.03] leading-none pointer-events-none select-none">
@@ -92,7 +92,7 @@ export function Projects() {
 
       <div className="relative mx-auto max-w-[1400px] px-5 md:px-10">
         {/* En-tête */}
-        <div className="grid lg:grid-cols-12 gap-8 items-end mb-16 md:mb-20">
+        <div className="grid lg:grid-cols-12 gap-6 items-end mb-10 md:mb-14">
           <div className="lg:col-span-7">
             <Reveal>
               <span className="section-label text-[#0d3b2e]">
@@ -119,7 +119,7 @@ export function Projects() {
         {/* Ligne dorée animée */}
         <motion.div
           style={{ scaleX: lineScale }}
-          className="h-px bg-gradient-to-r from-transparent via-[#f5b91a] to-transparent mb-12 origin-left"
+          className="h-px bg-gradient-to-r from-transparent via-[#f5b91a] to-transparent mb-8 origin-left"
         />
 
         {/* Projet vedette (featured) — grand format */}
@@ -128,7 +128,7 @@ export function Projects() {
         </Reveal>
 
         {/* Grille des autres projets */}
-        <div className="mt-6 md:mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="mt-5 md:mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {PROJECTS.slice(1).map((p, i) => (
             <Reveal key={p.title} delay={0.08 * i}>
               <ProjectCard project={p} index={i + 1} />
@@ -138,14 +138,14 @@ export function Projects() {
 
         {/* CTA bas */}
         <Reveal delay={0.2}>
-          <div className="mt-16 md:mt-20 flex flex-col md:flex-row items-center justify-between gap-6 p-8 md:p-10 rounded-3xl bg-[#0d3b2e] text-white relative overflow-hidden">
+          <div className="mt-12 md:mt-14 flex flex-col md:flex-row items-center justify-between gap-5 p-7 md:p-8 rounded-3xl bg-[#0d3b2e] text-white relative overflow-hidden">
             {/* Halo */}
             <div className="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-[#f5b91a]/20 blur-[80px]" />
             <div className="relative">
-              <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-tight">
+              <h3 className="font-display text-xl md:text-2xl font-semibold tracking-tight">
                 Et si votre projet était le prochain ?
               </h3>
-              <p className="mt-2 text-white/70 font-body max-w-xl">
+              <p className="mt-2 text-sm text-white/70 font-body max-w-xl">
                 Parlons de vos besoins énergétiques. Nous vous répondons sous
                 48 heures avec une première proposition personnalisée.
               </p>
@@ -181,12 +181,12 @@ function FeaturedProject({ project }: { project: (typeof PROJECTS)[number] }) {
       ref={ref}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="group relative grid lg:grid-cols-12 gap-6 lg:gap-10 items-center cursor-pointer"
+      className="group relative grid lg:grid-cols-12 gap-5 lg:gap-8 items-center cursor-pointer"
     >
       {/* Image avec parallaxe interne + skew vélocité */}
       <motion.div
         style={{ skewX }}
-        className="lg:col-span-8 relative aspect-[16/10] md:aspect-[16/9] rounded-3xl overflow-hidden bg-[#07241c] shadow-2xl shadow-[#0d3b2e]/15"
+        className="lg:col-span-7 relative aspect-[16/10] md:aspect-[16/9] rounded-3xl overflow-hidden bg-[#07241c] shadow-2xl shadow-[#0d3b2e]/15"
       >
         <motion.div style={{ y }} className="absolute inset-0 scale-110">
           <div
@@ -218,18 +218,18 @@ function FeaturedProject({ project }: { project: (typeof PROJECTS)[number] }) {
             <MapPin className="w-3.5 h-3.5" />
             {project.location}
           </div>
-          <h3 className="font-display text-3xl md:text-5xl font-semibold tracking-tight leading-[1.05] max-w-2xl">
+          <h3 className="font-display text-2xl md:text-4xl font-semibold tracking-tight leading-[1.05] max-w-2xl">
             {project.title}
           </h3>
         </div>
       </motion.div>
 
       {/* Panneau latéral : infos */}
-      <div className="lg:col-span-4 lg:pl-4">
+      <div className="lg:col-span-5 lg:pl-2">
         <div className="text-xs font-display font-semibold text-[#0d3b2e] tracking-widest uppercase mb-3">
           {project.category}
         </div>
-        <div className="space-y-5">
+        <div className="space-y-4">
           <div>
             <div className="text-xs text-[#5a6b65] font-body uppercase tracking-wider">
               Puissance installée

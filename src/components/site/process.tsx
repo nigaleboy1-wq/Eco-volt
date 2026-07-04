@@ -156,13 +156,13 @@ export function Process() {
                 transition={{ duration: 0.4 }}
                 className="absolute inset-0 mx-auto max-w-[1400px] px-5 md:px-10"
               >
-                <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 h-full items-center py-16">
+                <div className="grid lg:grid-cols-12 gap-6 lg:gap-10 h-full items-center py-10 md:py-8">
                   {/* Colonne gauche : timeline */}
                   <div className="lg:col-span-5 flex flex-col justify-center">
-                    <div className="text-xs font-display font-semibold text-[#0d3b2e] tracking-widest uppercase mb-6">
+                    <div className="text-xs font-display font-semibold text-[#0d3b2e] tracking-widest uppercase mb-4">
                       Étape {currentStep.num} sur {STEPS.length}
                     </div>
-                    <div className="space-y-1">
+                    <div className="space-y-0.5">
                       {STEPS.map((s, i) => {
                         const isActive = i === activeIndex;
                         const isDone = i < activeIndex;
@@ -173,7 +173,7 @@ export function Process() {
                               opacity: isActive ? 1 : isDone ? 0.55 : 0.35,
                             }}
                             transition={{ duration: 0.4 }}
-                            className="flex items-center gap-4 py-2.5"
+                            className="flex items-center gap-3.5 py-2"
                           >
                             <div className="relative flex items-center">
                               <motion.div
@@ -287,12 +287,12 @@ export function Process() {
                           </div>
                         </div>
 
-                        <div className="relative mt-8 pt-6 border-t border-black/10 flex items-center justify-between">
+                        <div className="relative mt-6 pt-4 border-t border-black/10 flex items-center justify-between">
                           <div>
                             <div className="text-xs text-[#5a6b65] font-body uppercase tracking-wider">
                               Durée
                             </div>
-                            <div className="mt-1 font-display text-lg font-semibold text-[#0a1f1a]">
+                            <div className="mt-1 font-display text-base font-semibold text-[#0a1f1a]">
                               {currentStep.duration}
                             </div>
                           </div>
@@ -306,22 +306,20 @@ export function Process() {
                 </div>
 
                 {/* Indicateur de progression bas */}
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-display font-semibold text-[#0d3b2e]">
-                      {String(activeStep).padStart(2, "0")}
-                    </span>
-                    <div className="w-32 h-1 bg-black/10 rounded-full overflow-hidden">
-                      <motion.div
-                        style={{ width: progressWidth }}
-                        className="h-full bg-gradient-to-r from-[#0d3b2e] to-[#f5b91a] rounded-full"
-                      />
-                    </div>
-                    <span className="text-xs font-display text-[#5a6b65]">
-                      {String(STEPS.length).padStart(2, "0")}
-                    </span>
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3">
+                  <span className="text-xs font-display font-semibold text-[#0d3b2e]">
+                    {String(activeStep).padStart(2, "0")}
+                  </span>
+                  <div className="w-32 h-1 bg-black/10 rounded-full overflow-hidden">
+                    <motion.div
+                      style={{ width: progressWidth }}
+                      className="h-full bg-gradient-to-r from-[#0d3b2e] to-[#f5b91a] rounded-full"
+                    />
                   </div>
-                  <span className="text-[0.65rem] tracking-[0.25em] uppercase text-[#5a6b65] font-display">
+                  <span className="text-xs font-display text-[#5a6b65]">
+                    {String(STEPS.length).padStart(2, "0")}
+                  </span>
+                  <span className="text-[0.65rem] tracking-[0.2em] uppercase text-[#5a6b65] font-display ml-2">
                     Étape {activeStep} / {STEPS.length}
                   </span>
                 </div>

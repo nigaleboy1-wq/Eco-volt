@@ -16,10 +16,10 @@ export function Approach() {
   return (
     <section
       ref={ref}
-      className="relative bg-white py-24 md:py-32 overflow-hidden"
+      className="relative bg-white py-20 md:py-28 overflow-hidden"
     >
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           {/* Image avec mouvement parallaxe */}
           <div className="relative order-2 lg:order-1">
             <Parallax amount={40}>

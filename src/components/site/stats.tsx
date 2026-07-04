@@ -68,7 +68,7 @@ export function Stats() {
   return (
     <section
       ref={ref}
-      className="relative bg-[#0d3b2e] text-white py-20 md:py-28 overflow-hidden"
+      className="relative bg-[#0d3b2e] text-white py-16 md:py-24 overflow-hidden"
     >
       {/* Motif géométrique animé en fond */}
       <motion.div
@@ -110,8 +110,8 @@ export function Stats() {
       </div>
 
       {/* Marquee partenaires infini */}
-      <div className="relative mt-20 pt-12 border-t border-white/10">
-        <div className="text-center mb-8">
+      <div className="relative mt-14 pt-8 border-t border-white/10">
+        <div className="text-center mb-6">
           <span className="text-xs tracking-[0.25em] uppercase text-white/40 font-display">
             Équipements certifiés & partenaires internationaux
           </span>

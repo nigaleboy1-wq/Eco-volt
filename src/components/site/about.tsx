@@ -41,13 +41,13 @@ export function About() {
     <section
       id="about"
       ref={ref}
-      className="relative bg-[#f6f4ee] py-24 md:py-36 overflow-hidden"
+      className="relative bg-[#f6f4ee] py-20 md:py-28 overflow-hidden"
     >
       {/* Décor */}
       <div className="absolute top-20 right-0 w-[40vw] h-[40vw] rounded-full bg-[#0d3b2e]/5 blur-[120px]" />
 
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
-        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Colonne gauche : image + parallaxe */}
           <div className="lg:col-span-5 relative">
             <Parallax amount={30}>
@@ -132,17 +132,17 @@ export function About() {
             </Reveal>
 
             {/* Valeurs en grille */}
-            <div className="mt-12 grid sm:grid-cols-2 gap-5">
+            <div className="mt-8 grid sm:grid-cols-2 gap-4">
               {VALUES.map((v, i) => (
                 <Reveal key={v.title} delay={0.1 * i}>
-                  <div className="lift group bg-white rounded-2xl p-6 border border-black/[0.06] hover:border-[#0d3b2e]/20 hover:shadow-xl hover:shadow-[#0d3b2e]/5">
-                    <div className="w-11 h-11 rounded-xl bg-[#e8f1ec] grid place-items-center mb-4 group-hover:bg-[#0d3b2e] transition-colors duration-500">
-                      <v.icon className="w-5 h-5 text-[#0d3b2e] group-hover:text-[#f5b91a] transition-colors duration-500" />
+                  <div className="lift group bg-white rounded-2xl p-5 border border-black/[0.06] hover:border-[#0d3b2e]/20 hover:shadow-xl hover:shadow-[#0d3b2e]/5">
+                    <div className="w-10 h-10 rounded-xl bg-[#e8f1ec] grid place-items-center mb-3 group-hover:bg-[#0d3b2e] transition-colors duration-500">
+                      <v.icon className="w-4 h-4 text-[#0d3b2e] group-hover:text-[#f5b91a] transition-colors duration-500" />
                     </div>
-                    <h3 className="font-display text-lg font-semibold text-[#0a1f1a] tracking-tight">
+                    <h3 className="font-display text-base font-semibold text-[#0a1f1a] tracking-tight">
                       {v.title}
                     </h3>
-                    <p className="mt-2 text-sm text-[#5a6b65] font-body leading-relaxed">
+                    <p className="mt-1.5 text-sm text-[#5a6b65] font-body leading-relaxed">
                       {v.desc}
                     </p>
                   </div>

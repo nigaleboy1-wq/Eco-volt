@@ -65,7 +65,7 @@ export function WhyUs() {
     <section
       id="trust"
       ref={ref}
-      className="relative bg-[#07241c] text-white py-24 md:py-36 overflow-hidden"
+      className="relative bg-[#07241c] text-white py-20 md:py-28 overflow-hidden"
     >
       {/* Halo solaire */}
       <div className="absolute top-1/4 -left-32 w-[40vw] h-[40vw] rounded-full bg-[#0d3b2e] blur-[120px] opacity-60" />
@@ -112,10 +112,10 @@ export function WhyUs() {
         </div>
 
         {/* Grille bento des points forts */}
-        <div className="mt-16 grid md:grid-cols-3 gap-4">
+        <div className="mt-12 grid md:grid-cols-3 gap-4">
           {POINTS.map((p, i) => (
             <Reveal key={p.title} delay={0.05 * i} className={p.span}>
-              <div className="group relative h-full glass rounded-3xl p-7 hover:bg-white/[0.08] transition-all duration-500 hover:-translate-y-1 overflow-hidden">
+              <div className="group relative h-full glass rounded-3xl p-6 hover:bg-white/[0.08] transition-all duration-500 hover:-translate-y-1 overflow-hidden">
                 {/* Halo qui apparaît au hover */}
                 <div className="absolute -bottom-20 -right-20 w-60 h-60 rounded-full bg-[#f5b91a]/0 group-hover:bg-[#f5b91a]/10 blur-[80px] transition-all duration-700" />
                 <div className="relative flex items-start justify-between">
