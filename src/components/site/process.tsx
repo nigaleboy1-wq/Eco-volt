@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { Reveal, RevealHeadline } from "./reveal";
 import { Phone, Search, PencilRuler, Boxes, Hammer, Headset, Check } from "lucide-react";
+import { useSmoothScroll } from "./smooth-scroll";
 
 const STEPS = [
   {
@@ -281,12 +282,20 @@ function StepPanel({
   step: (typeof STEPS)[number];
   index: number;
 }) {
+  // Le grand numéro se déplace légèrement avec la vélocité du scroll
+  const { velocity } = useSmoothScroll();
+  const numX = useTransform(velocity, [-50, 0, 50], [-20, 0, 20]);
+  const numScale = useTransform(velocity, [0, 50], [1, 1.05]);
+
   return (
     <div className="relative bg-[#f6f4ee] rounded-3xl p-8 md:p-10 border border-black/[0.06] min-h-[60vh] flex flex-col justify-between overflow-hidden">
-      {/* Décor : grand numéro en filigrane */}
-      <span className="absolute -top-8 -right-4 font-display text-[14rem] font-semibold text-[#0d3b2e]/5 leading-none pointer-events-none">
+      {/* Décor : grand numéro en filigrane animé par la vélocité */}
+      <motion.span
+        style={{ x: numX, scale: numScale }}
+        className="absolute -top-8 -right-4 font-display text-[14rem] font-semibold text-[#0d3b2e]/5 leading-none pointer-events-none"
+      >
         {step.num}
-      </span>
+      </motion.span>
 
       {/* Halo */}
       <div className="absolute -bottom-20 -left-20 w-60 h-60 rounded-full bg-[#f5b91a]/10 blur-[80px]" />

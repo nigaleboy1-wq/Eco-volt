@@ -1,9 +1,10 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useMotionTemplate } from "framer-motion";
 import { ArrowDown, ArrowUpRight, Sun, Zap, Battery } from "lucide-react";
 import { Magnetic } from "./magnetic";
+import { useSmoothScroll } from "./smooth-scroll";
 
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -11,6 +12,7 @@ export function Hero() {
     target: ref,
     offset: ["start start", "end start"],
   });
+  const { velocityNorm } = useSmoothScroll();
 
   // Parallaxe multi-couches (depth layers)
   const yBgFar = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
@@ -19,12 +21,26 @@ export function Hero() {
   const scaleBg = useTransform(scrollYProgress, [0, 1], [1.1, 1.4]);
   const yText = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
-  const blur = useTransform(scrollYProgress, [0, 0.8], [0, 6]);
+  const scrollBlur = useTransform(scrollYProgress, [0, 0.8], [0, 6]);
   const ySpring = useSpring(yText, { stiffness: 80, damping: 20 });
 
   // Halo solaire suit le scroll
   const haloX = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const haloOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.3]);
+
+  // === Effets basés sur la vélocité du scroll ===
+  // Blur dynamique : plus on scroll vite, plus le texte floute (motion blur)
+  const velocityBlur = useTransform(velocityNorm, [0, 0.5, 1], [0, 2, 5]);
+  // Scale léger : le texte se rétracte légèrement quand on scroll vite
+  const velocityScale = useTransform(velocityNorm, [0, 1], [1, 0.985]);
+  // Combinaison des deux blurs (scroll position + vélocité)
+  const totalBlur = useTransform(
+    [scrollBlur, velocityBlur],
+    (vals: number[]) => (vals[0] as number) + (vals[1] as number)
+  );
+  const filter = useMotionTemplate`blur(${totalBlur}px)`;
+  // Légère parallaxe verticale induite par la vélocité sur l'image de fond
+  const velocityBgY = useTransform(velocityNorm, [0, 1], [0, -15]);
 
   return (
     <section
@@ -34,7 +50,7 @@ export function Hero() {
     >
       {/* === Couche 1 : image de fond avec ken burns + parallaxe lent === */}
       <motion.div
-        style={{ y: yBgFar, scale: scaleBg }}
+        style={{ y: yBgFar, scale: scaleBg, x: velocityBgY }}
         className="absolute inset-0 z-0"
       >
         <div
@@ -114,7 +130,7 @@ export function Hero() {
 
       {/* === Contenu principal avec parallaxe texte === */}
       <motion.div
-        style={{ y: ySpring, opacity, filter: blur ? `blur(${blur}px)` : undefined }}
+        style={{ y: ySpring, opacity, filter, scale: velocityScale }}
         className="relative z-10 h-full mx-auto max-w-[1400px] px-5 md:px-10 flex flex-col justify-center"
       >
         <motion.div

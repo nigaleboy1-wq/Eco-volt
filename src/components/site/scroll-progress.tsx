@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { useSmoothScroll } from "./smooth-scroll";
 
 export function ScrollProgress() {
   const { scrollYProgress } = useScroll();
@@ -10,11 +11,22 @@ export function ScrollProgress() {
     damping: 30,
     restDelta: 0.001,
   });
+  // La barre s'épaissit légèrement quand on scroll vite
+  const { velocityNorm } = useSmoothScroll();
+  const height = useTransform(velocityNorm, [0, 1], [3, 6]);
+  const glow = useTransform(velocityNorm, [0, 1], [0, 0.6]);
 
   return (
     <motion.div
-      style={{ scaleX }}
-      className="fixed top-0 left-0 right-0 z-[70] h-[3px] origin-left bg-gradient-to-r from-[#0d3b2e] via-[#f5b91a] to-[#0d3b2e]"
+      style={{
+        scaleX,
+        height,
+        boxShadow: useTransform(
+          glow,
+          (g) => `0 0 12px rgba(245,185,26,${g})`
+        ),
+      }}
+      className="fixed top-0 left-0 right-0 z-[70] origin-left bg-gradient-to-r from-[#0d3b2e] via-[#f5b91a] to-[#0d3b2e]"
     />
   );
 }

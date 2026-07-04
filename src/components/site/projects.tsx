@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Reveal, RevealHeadline, Parallax } from "./reveal";
 import { ArrowUpRight, MapPin, ArrowRight } from "lucide-react";
+import { useSmoothScroll } from "./smooth-scroll";
 
 const PROJECTS = [
   {
@@ -171,6 +172,10 @@ function FeaturedProject({ project }: { project: (typeof PROJECTS)[number] }) {
   });
   const y = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
 
+  // Effet vélocité : skew subtil de l'image quand on scroll vite
+  const { velocity } = useSmoothScroll();
+  const skewX = useTransform(velocity, [-50, 0, 50], [2, 0, -2]);
+
   return (
     <div
       ref={ref}
@@ -178,8 +183,11 @@ function FeaturedProject({ project }: { project: (typeof PROJECTS)[number] }) {
       onMouseLeave={() => setHovered(false)}
       className="group relative grid lg:grid-cols-12 gap-6 lg:gap-10 items-center cursor-pointer"
     >
-      {/* Image avec parallaxe interne */}
-      <div className="lg:col-span-8 relative aspect-[16/10] md:aspect-[16/9] rounded-3xl overflow-hidden bg-[#07241c] shadow-2xl shadow-[#0d3b2e]/15">
+      {/* Image avec parallaxe interne + skew vélocité */}
+      <motion.div
+        style={{ skewX }}
+        className="lg:col-span-8 relative aspect-[16/10] md:aspect-[16/9] rounded-3xl overflow-hidden bg-[#07241c] shadow-2xl shadow-[#0d3b2e]/15"
+      >
         <motion.div style={{ y }} className="absolute inset-0 scale-110">
           <div
             className="absolute inset-0 transition-transform duration-[1.5s] ease-out group-hover:scale-105"
@@ -214,7 +222,7 @@ function FeaturedProject({ project }: { project: (typeof PROJECTS)[number] }) {
             {project.title}
           </h3>
         </div>
-      </div>
+      </motion.div>
 
       {/* Panneau latéral : infos */}
       <div className="lg:col-span-4 lg:pl-4">
@@ -274,9 +282,14 @@ function ProjectCard({ project, index }: { project: (typeof PROJECTS)[number]; i
   // Légère parallaxe verticale sur l'image
   const y = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
 
+  // Effet vélocité : skew subtil de la carte quand on scroll vite
+  const { velocity } = useSmoothScroll();
+  const skewY = useTransform(velocity, [-50, 0, 50], [-1.5, 0, 1.5]);
+
   return (
-    <div
+    <motion.div
       ref={ref}
+      style={{ skewY }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className="group relative aspect-[4/5] rounded-3xl overflow-hidden bg-[#07241c] cursor-pointer lift"
@@ -356,6 +369,6 @@ function ProjectCard({ project, index }: { project: (typeof PROJECTS)[number]; i
           className="mt-4 h-px bg-gradient-to-r from-[#f5b91a] to-transparent origin-left"
         />
       </div>
-    </div>
+    </motion.div>
   );
 }

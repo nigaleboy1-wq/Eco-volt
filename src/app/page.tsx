@@ -11,24 +11,27 @@ import { Testimonials } from "@/components/site/testimonials";
 import { Contact } from "@/components/site/contact";
 import { Footer } from "@/components/site/footer";
 import { ScrollProgress, CursorGlow } from "@/components/site/scroll-progress";
+import { SmoothScrollProvider } from "@/components/site/smooth-scroll";
 
 export default function Home() {
   return (
-    <main className="relative bg-white min-h-screen flex flex-col">
-      <ScrollProgress />
-      <CursorGlow />
-      <Navbar />
-      <Hero />
-      <About />
-      <Services />
-      <Approach />
-      <WhyUs />
-      <Projects />
-      <Process />
-      <Stats />
-      <Testimonials />
-      <Contact />
-      <Footer />
-    </main>
+    <SmoothScrollProvider>
+      <main className="relative bg-white min-h-screen flex flex-col">
+        <ScrollProgress />
+        <CursorGlow />
+        <Navbar />
+        <Hero />
+        <About />
+        <Services />
+        <Approach />
+        <WhyUs />
+        <Projects />
+        <Process />
+        <Stats />
+        <Testimonials />
+        <Contact />
+        <Footer />
+      </main>
+    </SmoothScrollProvider>
   );
 }
