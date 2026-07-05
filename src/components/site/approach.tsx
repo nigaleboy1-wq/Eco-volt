@@ -16,16 +16,16 @@ export function Approach() {
   return (
     <section
       ref={ref}
-      className="relative bg-white py-14 md:py-20 overflow-hidden"
+      className="relative bg-white py-16 md:py-24 overflow-hidden"
     >
-      <div className="mx-auto max-w-[1400px] px-5 md:px-10">
+      <div className="mx-auto max-w-[1280px] px-6 md:px-10">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           {/* Image avec mouvement parallaxe */}
           <div className="relative order-2 lg:order-1">
             <Parallax amount={40}>
               <motion.div
                 style={{ rotate }}
-                className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl shadow-[#0d3b2e]/15"
+                className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl shadow-[#0E3B2E]/15"
               >
                 <motion.div style={{ y }} className="absolute inset-0 scale-110">
                   <div
@@ -38,38 +38,47 @@ export function Approach() {
                     }}
                   />
                 </motion.div>
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#07241c]/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#0E3B2E]/40 to-transparent" />
               </motion.div>
             </Parallax>
 
             {/* Carte flottante */}
-            <div className="absolute -top-6 -right-4 md:-right-8 bg-[#f5b91a] text-[#07241c] rounded-2xl px-5 py-4 shadow-xl rotate-3 hover:rotate-0 transition-transform duration-500">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, rotate: 3 }}
+              whileInView={{ opacity: 1, scale: 1, rotate: 3 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ delay: 0.4, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ rotate: 0, scale: 1.05 }}
+              className="absolute -top-6 -right-4 md:-right-8 bg-[#D8A928] text-[#0E3B2E] rounded-2xl px-5 py-4 shadow-xl"
+            >
               <div className="font-display text-2xl font-semibold tracking-tight">
                 −70%
               </div>
               <div className="text-xs mt-0.5 font-body">
                 facture énergétique
               </div>
-            </div>
+            </motion.div>
           </div>
 
           {/* Texte */}
           <div className="order-1 lg:order-2">
             <Reveal>
-              <span className="section-label text-[#0d3b2e]">
-                <span className="w-8 h-px bg-[#f5b91a]" />
-                Notre approche
-              </span>
+              <div className="flex items-center gap-4 mb-5">
+                <span className="w-10 h-px bg-[#D8A928]" />
+                <span className="text-xs font-display font-semibold tracking-[0.3em] uppercase text-[#0E3B2E]">
+                  Notre approche
+                </span>
+              </div>
             </Reveal>
-            <h2 className="mt-6 font-display font-semibold tracking-[-0.03em] leading-[1.02] text-[clamp(2rem,4vw,3.4rem)] text-[#0a1f1a] text-balance">
+            <h2 className="font-display font-bold tracking-[-0.035em] leading-[1.05] text-[clamp(1.75rem,3.5vw,3rem)] text-[#132C25] text-balance">
               <RevealHeadline text="L'énergie solaire," />{" "}
-              <RevealHeadline text="pensée comme un" delay={0.1} />{" "}
-              <RevealHeadline text="investissement," delay={0.2} />{" "}
-              <RevealHeadline text="pas comme une dépense." delay={0.3} />
+              <RevealHeadline text="pensée comme un" delay={0.08} />{" "}
+              <RevealHeadline text="investissement," delay={0.16} />{" "}
+              <RevealHeadline text="pas comme une dépense." delay={0.24} />
             </h2>
 
             <Reveal delay={0.2}>
-              <p className="mt-7 text-base md:text-lg text-[#5a6b65] font-body leading-relaxed text-pretty">
+              <p className="mt-6 text-base md:text-lg text-[#0E3B2E]/70 font-body leading-relaxed text-pretty">
                 Chaque installation EcoVolt est conçue pour produire un retour
                 sur investissement mesurable. Nous modélisons votre
                 rentabilité, comparons les scénarios et vous accompagnons dans
@@ -77,7 +86,7 @@ export function Approach() {
               </p>
             </Reveal>
 
-            <div className="mt-10 space-y-6">
+            <div className="mt-8 space-y-5">
               {[
                 {
                   k: "Économies",
@@ -92,13 +101,13 @@ export function Approach() {
                   v: "Votre patrimoine prend de la valeur, votre empreinte carbone baisse.",
                 },
               ].map((item, i) => (
-                <Reveal key={item.k} delay={0.1 * i}>
+                <Reveal key={item.k} delay={0.3 + i * 0.1}>
                   <div className="flex items-start gap-5 group">
-                    <span className="font-display text-sm font-semibold text-[#f5b91a] tracking-widest mt-1 w-24 shrink-0">
+                    <span className="font-display text-sm font-semibold text-[#D8A928] tracking-widest mt-1 w-24 shrink-0">
                       {item.k.toUpperCase()}
                     </span>
-                    <div className="flex-1 pb-6 border-b border-black/10">
-                      <p className="text-base text-[#0a1f1a] font-body leading-relaxed">
+                    <div className="flex-1 pb-5 border-b border-[#0E3B2E]/10">
+                      <p className="text-base text-[#132C25] font-body leading-relaxed">
                         {item.v}
                       </p>
                     </div>

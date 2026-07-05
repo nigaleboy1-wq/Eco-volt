@@ -3,6 +3,9 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
+// Easing premium cohérent sur tout le site
+const EASE = [0.16, 1, 0.3, 1] as const;
+
 type Props = {
   children: React.ReactNode;
   className?: string;
@@ -15,17 +18,17 @@ type Props = {
 export function Reveal({
   children,
   className,
-  y = 30,
+  y = 24,
   delay = 0,
-  duration = 0.8,
+  duration = 0.7,
   once = true,
 }: Props) {
   return (
     <motion.div
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once, margin: "-80px" }}
-      transition={{ duration, delay, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once, margin: "-60px" }}
+      transition={{ duration, delay, ease: EASE }}
       className={className}
     >
       {children}
@@ -51,11 +54,11 @@ export function RevealHeadline({
           <motion.span
             initial={{ y: "110%" }}
             whileInView={{ y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
+            viewport={{ once: true, margin: "-40px" }}
             transition={{
-              duration: 0.9,
-              delay: delay + i * 0.08,
-              ease: [0.16, 1, 0.3, 1],
+              duration: 0.8,
+              delay: delay + i * 0.06,
+              ease: EASE,
             }}
             className="inline-block"
           >

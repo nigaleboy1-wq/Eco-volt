@@ -23,31 +23,40 @@ export default function Home() {
         <Navbar />
         <Hero />
 
-        <SectionTransition fromColor="#07241c" toColor="#F8F7F2" />
+        {/* Hero (dark) → About (cream) */}
+        <SectionTransition variant="dark-to-cream" />
         <About />
 
-        <SectionTransition fromColor="#F8F7F2" toColor="#ffffff" />
+        {/* About (cream) → Services (white) */}
+        <SectionTransition variant="cream-to-light" />
         <Services />
 
-        <SectionTransition fromColor="#ffffff" toColor="#ffffff" />
+        {/* Services (white) → Approach (white) */}
+        <SectionTransition variant="cream-to-light" fromColor="#ffffff" toColor="#ffffff" />
         <Approach />
 
-        <SectionTransition fromColor="#ffffff" toColor="#07241c" />
+        {/* Approach (white) → WhyUs (dark) */}
+        <SectionTransition variant="light-to-dark" />
         <WhyUs />
 
-        <SectionTransition fromColor="#07241c" toColor="#F8F7F2" />
+        {/* WhyUs (dark) → Projects (cream) */}
+        <SectionTransition variant="dark-to-cream" />
         <Projects />
 
-        <SectionTransition fromColor="#F8F7F2" toColor="#F8F7F2" />
+        {/* Projects (cream) → Process (cream) */}
+        <SectionTransition variant="cream-to-cream" />
         <Process />
 
-        <SectionTransition fromColor="#F8F7F2" toColor="#0E3B2E" />
+        {/* Process (cream) → Stats (dark green) */}
+        <SectionTransition variant="cream-to-light" fromColor="#F8F7F2" toColor="#0E3B2E" />
         <Stats />
 
-        <SectionTransition fromColor="#0E3B2E" toColor="#F8F6F1" />
+        {/* Stats (dark green) → Testimonials (cream) */}
+        <SectionTransition variant="dark-to-light" />
         <Testimonials />
 
-        <SectionTransition fromColor="#F8F6F1" toColor="#ffffff" />
+        {/* Testimonials (cream) → Contact (white) */}
+        <SectionTransition variant="cream-to-light" />
         <Contact />
         <Footer />
       </main>

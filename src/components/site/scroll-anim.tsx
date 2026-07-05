@@ -5,13 +5,14 @@ import { useRef, ReactNode } from "react";
 
 // === Variants pour animations scroll ===
 // Chaque élément vient d'une direction et retrouve sa position
+const EASE = [0.16, 1, 0.3, 1] as const;
 
 export function FromLeft({
   children,
   className,
   delay = 0,
-  duration = 0.8,
-  distance = 60,
+  duration = 0.7,
+  distance = 50,
 }: {
   children: ReactNode;
   className?: string;
@@ -23,8 +24,8 @@ export function FromLeft({
     <motion.div
       initial={{ opacity: 0, x: -distance }}
       whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration, delay, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration, delay, ease: EASE }}
       className={className}
     >
       {children}
