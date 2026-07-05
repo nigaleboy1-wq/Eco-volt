@@ -12,7 +12,7 @@ import {
   BreathingGlow,
   FloatingIcon,
 } from "./scroll-anim";
-import { ShieldCheck, Sparkles, Leaf, Users, Sun, Battery, Zap, ArrowRight } from "lucide-react";
+import { ShieldCheck, Sparkles, Leaf, Users, Sun, Battery, ArrowRight } from "lucide-react";
 
 const VALUES = [
   {
@@ -37,26 +37,11 @@ const VALUES = [
   },
 ];
 
-// Statistiques flottantes sur la photo
+// Badges statistiques flottants sur la photo (uniquement — pas de redondance avec légende bas)
 const FLOATING_STATS = [
-  { value: 2500, prefix: "+", label: "Projets livrés à travers le pays", color: "dark" },
-  { value: 98, suffix: "%", label: "Clients satisfaits lors de nos missions", color: "light" },
-  { value: 15, prefix: "+", label: "Ingénieurs experts à votre service", color: "light" },
-];
-
-// Stats en ligne (avec count-up)
-const INLINE_STATS = [
-  { value: 2018, label: "Création d'EcoVolt" },
-  { value: 2500, prefix: "+", label: "Projets réalisés" },
-  { value: 98, suffix: "%", label: "Clients satisfaits" },
-  { value: 15, prefix: "+", label: "Ingénieurs certifiés" },
-];
-
-// Icônes décoratives flottantes
-const DECORATIVE_ICONS = [
-  { icon: Sun, top: "8%", left: "92%", size: 24, delay: 0 },
-  { icon: Battery, top: "45%", left: "95%", size: 22, delay: 1.5 },
-  { icon: Leaf, top: "82%", left: "92%", size: 24, delay: 3 },
+  { value: 2500, prefix: "+", label: "Projets livrés", color: "dark" },
+  { value: 98, suffix: "%", label: "Clients satisfaits", color: "light" },
+  { value: 15, prefix: "+", label: "Ingénieurs experts", color: "light" },
 ];
 
 export function About() {
@@ -74,8 +59,7 @@ export function About() {
       className="relative py-16 md:py-24 overflow-hidden"
       style={{ backgroundColor: "#F8F7F2" }}
     >
-      {/* === Décor de fond === */}
-      {/* Breathing glows */}
+      {/* === Décor de fond : breathing glows === */}
       <BreathingGlow
         className="absolute -top-20 -left-20 w-[40vw] h-[40vw] rounded-full blur-[100px] pointer-events-none"
         color="radial-gradient(circle, rgba(216,169,40,0.12) 0%, transparent 70%)"
@@ -87,22 +71,29 @@ export function About() {
         duration={8}
       />
 
-      {/* Icônes décoratives flottantes */}
-      {DECORATIVE_ICONS.map((item, i) => (
-        <FloatingIcon
-          key={i}
-          className={`absolute hidden lg:block opacity-20 text-[#0E3B2E] z-0`}
-          duration={6 + i}
-          delay={item.delay}
-          amplitude={12}
-        >
-          <item.icon style={{ width: item.size, height: item.size }} />
-        </FloatingIcon>
-      ))}
+      {/* Icônes décoratives flottantes en bord de section */}
+      <FloatingIcon
+        className="absolute hidden lg:block opacity-20 text-[#0E3B2E] z-0"
+        style={{ top: "10%", left: "92%" } as React.CSSProperties}
+        duration={6}
+        delay={0}
+        amplitude={12}
+      >
+        <Sun className="w-6 h-6" />
+      </FloatingIcon>
+      <FloatingIcon
+        className="absolute hidden lg:block opacity-20 text-[#0E3B2E] z-0"
+        style={{ top: "85%", left: "94%" } as React.CSSProperties}
+        duration={7}
+        delay={2}
+        amplitude={10}
+      >
+        <Battery className="w-5 h-5" />
+      </FloatingIcon>
 
       <div className="relative mx-auto max-w-[1400px] px-5 md:px-10">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-          {/* === COLONNE GAUCHE : Photo + cartes flottantes === */}
+          {/* === COLONNE GAUCHE : Photo + badges flottants === */}
           <div className="lg:col-span-5 relative">
             <FromLeft distance={80}>
               <div className="relative">
@@ -122,8 +113,9 @@ export function About() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0E3B2E]/30 to-transparent" />
                 </PhotoReveal>
 
-                {/* === Cartes statistiques flottantes === */}
-                <div className="absolute -right-4 md:-right-8 top-[55%] space-y-3 z-20">
+                {/* === Badges statistiques flottants (uniquement — pas de légende bas) === */}
+                {/* Positionnés à droite de la photo, empilés verticalement, taille uniforme */}
+                <div className="absolute -right-3 md:-right-6 top-[50%] -translate-y-1/2 space-y-3 z-20">
                   <StaggerGroup stagger={0.2} delay={0.6}>
                     {FLOATING_STATS.map((stat, i) => (
                       <StaggerItem key={i} from="right" distance={30}>
@@ -132,23 +124,6 @@ export function About() {
                     ))}
                   </StaggerGroup>
                 </div>
-
-                {/* === Stats en ligne en bas de la photo === */}
-                <FromBottom delay={1} className="mt-6 grid grid-cols-4 gap-3">
-                  {INLINE_STATS.map((s, i) => (
-                    <div key={i} className="text-center">
-                      <CountUp
-                        value={s.value}
-                        prefix={s.prefix}
-                        suffix={s.suffix}
-                        className="font-display font-bold text-lg md:text-xl text-[#0E3B2E]"
-                      />
-                      <div className="text-[0.6rem] md:text-xs text-[#0E3B2E]/60 font-body mt-0.5 leading-tight">
-                        {s.label}
-                      </div>
-                    </div>
-                  ))}
-                </FromBottom>
               </div>
             </FromLeft>
           </div>
@@ -157,7 +132,7 @@ export function About() {
           <div className="lg:col-span-7 lg:pl-6">
             {/* Label */}
             <FromRight distance={40}>
-              <div className="flex items-center gap-4 mb-5">
+              <div className="flex items-center gap-4 mb-4">
                 <span className="w-12 h-px bg-[#D8A928]" />
                 <span className="text-xs font-display font-semibold tracking-[0.3em] uppercase text-[#0E3B2E]">
                   À propos d'EcoVolt
@@ -165,16 +140,22 @@ export function About() {
               </div>
             </FromRight>
 
-            {/* Titre — reveal line by line */}
-            <h2 className="font-display font-bold tracking-[-0.03em] leading-[1.05] text-[clamp(1.8rem,3.8vw,3rem)] text-[#132C25] text-balance max-w-2xl">
-              <RevealLine text="Construire l'avenir" delay={0.1} />
-              <RevealLine text="énergétique du Burkina" delay={0.2} />
-              <RevealLine text="Faso grâce à l'énergie" delay={0.3} />
-              <RevealLine text="solaire." delay={0.4} className="italic font-light text-[#0E3B2E]" />
-            </h2>
+            {/* === Vrai titre H2 principal === */}
+            <FromRight distance={40} delay={0.1}>
+              <h2 className="font-display font-bold tracking-[-0.03em] leading-[1.05] text-[clamp(2rem,3.8vw,2.75rem)] text-[#132C25] mb-5">
+                Qui sommes-nous ?
+              </h2>
+            </FromRight>
+
+            {/* Sous-titre éditorial */}
+            <h3 className="font-display font-semibold tracking-[-0.02em] leading-[1.1] text-[clamp(1.25rem,2vw,1.6rem)] text-[#0E3B2E] text-balance max-w-2xl mb-6">
+              <RevealLine text="Construire l'avenir énergétique" delay={0.15} />
+              <RevealLine text="du Burkina Faso grâce à l'énergie" delay={0.25} />
+              <RevealLine text="solaire." delay={0.35} className="italic font-light text-[#0E3B2E]" />
+            </h3>
 
             {/* Paragraphes — fade upward */}
-            <FromBottom delay={0.5} className="mt-7">
+            <FromBottom delay={0.5} className="mt-5">
               <p className="text-base text-[#0E3B2E]/70 font-body leading-relaxed text-pretty max-w-xl">
                 Basée à Ouagadougou, EcoVolt Solutions accompagne les
                 particuliers, entreprises et institutions du Burkina Faso et des
@@ -193,21 +174,22 @@ export function About() {
               </p>
             </FromBottom>
 
-            {/* Cartes valeurs — stagger animation */}
+            {/* === Cartes valeurs — contraste renforcé === */}
             <StaggerGroup stagger={0.12} delay={0.7} className="mt-8 grid sm:grid-cols-2 gap-4">
               {VALUES.map((v) => (
                 <StaggerItem key={v.title} from="bottom" distance={30}>
                   <motion.div
-                    whileHover={{ y: -4, boxShadow: "0 12px 32px -8px rgba(14,59,46,0.12)" }}
-                    className="group bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-[#0E3B2E]/[0.06] transition-colors"
+                    whileHover={{ y: -4, boxShadow: "0 16px 40px -8px rgba(14,59,46,0.18)" }}
+                    className="group bg-white rounded-2xl p-5 border border-[#0E3B2E]/12 shadow-md shadow-[#0E3B2E]/[0.06] transition-colors"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-[#FFF9EC] grid place-items-center mb-3 group-hover:bg-[#0E3B2E] transition-colors duration-500">
-                      <v.icon className="w-4 h-4 text-[#0E3B2E] group-hover:text-[#D8A928] transition-colors duration-500" />
+                    {/* Icône agrandie + couleur vert EcoVolt marquée */}
+                    <div className="w-12 h-12 rounded-xl bg-[#0E3B2E] grid place-items-center mb-4 group-hover:bg-[#D8A928] transition-colors duration-500">
+                      <v.icon className="w-6 h-6 text-[#D8A928] group-hover:text-[#0E3B2E] transition-colors duration-500" />
                     </div>
-                    <h3 className="font-display text-base font-semibold text-[#132C25] tracking-tight">
+                    <h4 className="font-display text-lg font-semibold text-[#132C25] tracking-tight">
                       {v.title}
-                    </h3>
-                    <p className="mt-1.5 text-sm text-[#0E3B2E]/65 font-body leading-relaxed">
+                    </h4>
+                    <p className="mt-2 text-sm text-[#0E3B2E]/65 font-body leading-relaxed">
                       {v.desc}
                     </p>
                   </motion.div>
@@ -215,13 +197,13 @@ export function About() {
               ))}
             </StaggerGroup>
 
-            {/* Bouton */}
+            {/* === Bouton CTA renforcé : fond plein vert === */}
             <FromBottom delay={1.2} className="mt-8">
               <motion.a
                 href="#projects"
-                whileHover={{ scale: 1.03 }}
+                whileHover={{ scale: 1.03, boxShadow: "0 12px 32px -6px rgba(14,59,46,0.35)" }}
                 whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[#D8A928] bg-white text-[#0E3B2E] text-sm font-display font-semibold hover:bg-[#0E3B2E] hover:text-white hover:border-[#0E3B2E] transition-all duration-300"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#0E3B2E] text-white text-sm font-display font-semibold hover:bg-[#0E3B2E]/90 transition-all duration-300 shadow-lg shadow-[#0E3B2E]/20"
               >
                 Découvrir notre histoire
                 <ArrowRight className="w-4 h-4" />
@@ -236,7 +218,7 @@ export function About() {
 
 // === Sous-composants ===
 
-/** Carte statistique flottante */
+/** Carte statistique flottante — taille uniforme */
 function FloatingStatCard({
   stat,
   index,
@@ -249,21 +231,19 @@ function FloatingStatCard({
     <FloatingIcon duration={5 + index} delay={index * 0.5} amplitude={6}>
       <motion.div
         whileHover={{ scale: 1.05, y: -4 }}
-        className={`w-44 p-4 rounded-2xl backdrop-blur-md border ${
+        className={`w-[200px] p-4 rounded-2xl backdrop-blur-md border text-center ${
           isDark
             ? "bg-[#0E3B2E] text-white border-[#0E3B2E]"
-            : "bg-white/80 text-[#132C25] border-white/60"
+            : "bg-white/90 text-[#132C25] border-[#0E3B2E]/10"
         } shadow-xl shadow-[#0E3B2E]/10`}
       >
-        <div className="flex items-baseline gap-1">
-          <CountUp
-            value={stat.value}
-            prefix={stat.prefix}
-            suffix={stat.suffix}
-            className={`font-display font-bold text-2xl ${isDark ? "text-[#D8A928]" : "text-[#0E3B2E]"}`}
-          />
-        </div>
-        <div className={`text-xs mt-1 font-body leading-tight ${isDark ? "text-white/70" : "text-[#0E3B2E]/60"}`}>
+        <CountUp
+          value={stat.value}
+          prefix={stat.prefix}
+          suffix={stat.suffix}
+          className={`block font-display font-bold text-2xl ${isDark ? "text-[#D8A928]" : "text-[#0E3B2E]"}`}
+        />
+        <div className={`text-xs mt-1.5 font-body leading-tight ${isDark ? "text-white/75" : "text-[#0E3B2E]/60"}`}>
           {stat.label}
         </div>
       </motion.div>
