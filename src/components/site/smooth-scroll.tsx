@@ -145,6 +145,16 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
 
     // === Boucle d'animation principale ===
     const tick = () => {
+      // Si une navigation animée est en cours, on laisse le navbar gérer le scroll
+      const navScrolling = (window as unknown as { __navScrolling?: boolean }).__navScrolling;
+      if (navScrolling) {
+        // Sync currentY avec la position réelle pendant la navigation
+        currentY.current = window.scrollY;
+        targetY.current = window.scrollY;
+        raf.current = requestAnimationFrame(tick);
+        return;
+      }
+
       // Quand on est idle (scrollbar drag, touch, etc.), on sync la cible
       if (mode === "idle") {
         targetY.current = window.scrollY;
