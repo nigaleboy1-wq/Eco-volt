@@ -12,10 +12,27 @@ export function Approach() {
     offset: ["start end", "end start"],
   });
 
+  // === Animation de transition entrée/sortie ===
+  // Voile subtil qui apparaît à l'entrée et à la sortie
+  const veilOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.05, 0.12, 0.88, 0.95, 1],
+    [0.6, 0.3, 0, 0, 0.3, 0.6]
+  );
+  // Contenu : fondu léger à l'entrée et à la sortie
+  const contentOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.05, 0.12, 0.88, 0.95, 1],
+    [0.5, 0.8, 1, 1, 0.8, 0.5]
+  );
+  const contentScale = useTransform(
+    scrollYProgress,
+    [0, 0.05, 0.12, 0.88, 0.95, 1],
+    [0.98, 0.99, 1, 1, 0.99, 0.98]
+  );
+
   // Animation de la courbe qui se dessine au scroll
   const pathLength = useTransform(scrollYProgress, [0.1, 0.5], [0, 1]);
-  // Les barres grandissent au scroll
-  const barsGrow = useTransform(scrollYProgress, [0.15, 0.6], [0, 1]);
   // Le point qui se déplace sur la courbe
   const dotX = useTransform(scrollYProgress, [0.1, 0.5], [50, 550]);
   const dotY = useTransform(scrollYProgress, [0.1, 0.5], [320, 80]);
@@ -26,7 +43,16 @@ export function Approach() {
       ref={ref}
       className="relative bg-white py-16 md:py-24 overflow-hidden"
     >
-      <div className="mx-auto max-w-[1280px] px-6 md:px-10">
+      {/* Voile de transition (entrée/sortie) */}
+      <motion.div
+        style={{ opacity: veilOpacity }}
+        className="absolute inset-0 bg-white pointer-events-none z-10"
+      />
+
+      <motion.div
+        style={{ opacity: contentOpacity, scale: contentScale }}
+        className="relative z-20 mx-auto max-w-[1280px] px-6 md:px-10"
+      >
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           {/* === COLONNE GAUCHE : Graphique animé === */}
           <div className="relative order-2 lg:order-1">
@@ -247,7 +273,7 @@ export function Approach() {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
