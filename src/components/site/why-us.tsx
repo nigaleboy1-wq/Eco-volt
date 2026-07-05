@@ -5,13 +5,13 @@ import { motion, useScroll, useTransform, useMotionValue, useSpring } from "fram
 import { Reveal, RevealHeadline } from "./reveal";
 import {
   Award,
-  Users,
   Boxes,
   ShieldCheck,
   Timer,
   Headset,
   SlidersHorizontal,
   Infinity as InfinityIcon,
+  ArrowUpRight,
 } from "lucide-react";
 
 const POINTS = [
@@ -59,19 +59,44 @@ export function WhyUs() {
     target: ref,
     offset: ["start end", "end start"],
   });
+
+  // Animation d'entrée : opacité et scale quand la section entre
+  const enterOpacity = useTransform(scrollYProgress, [0, 0.15, 0.25], [0.3, 0.7, 1]);
+  const enterScale = useTransform(scrollYProgress, [0, 0.15, 0.25], [0.95, 0.98, 1]);
+  const enterY = useTransform(scrollYProgress, [0, 0.15, 0.25], [40, 20, 0]);
+
+  // Animation de sortie : opacité et blur quand la section sort
+  const exitOpacity = useTransform(scrollYProgress, [0.75, 0.85, 1], [1, 0.7, 0.3]);
+  const exitScale = useTransform(scrollYProgress, [0.75, 0.85, 1], [1, 0.98, 0.95]);
+  const exitY = useTransform(scrollYProgress, [0.75, 0.85, 1], [0, -20, -40]);
+
+  // Voile qui apparaît à l'entrée et disparaît à la sortie
+  const veilOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.1, 0.2, 0.8, 0.9, 1],
+    [1, 0.5, 0, 0, 0.5, 1]
+  );
+
+  // Bandeau défilant
   const xMarquee = useTransform(scrollYProgress, [0, 1], ["-15%", "-50%"]);
 
   return (
     <section
       id="trust"
       ref={ref}
-      className="relative bg-[#07241c] text-white py-14 md:py-20 overflow-hidden"
+      className="relative bg-[#0E3B2E] text-white py-20 md:py-28 overflow-hidden"
     >
-      {/* Halo solaire */}
-      <div className="absolute top-1/4 -left-32 w-[40vw] h-[40vw] rounded-full bg-[#0d3b2e] blur-[120px] opacity-60" />
-      <div className="absolute bottom-0 right-0 w-[35vw] h-[35vw] rounded-full bg-[#f5b91a]/10 blur-[120px]" />
+      {/* Halo solaire animé */}
+      <motion.div
+        style={{ opacity: enterOpacity }}
+        className="absolute top-1/4 -left-32 w-[40vw] h-[40vw] rounded-full bg-[#0E3B2E] blur-[120px] opacity-60 pointer-events-none"
+      />
+      <motion.div
+        style={{ opacity: exitOpacity }}
+        className="absolute bottom-0 right-0 w-[35vw] h-[35vw] rounded-full bg-[#D8A928]/10 blur-[120px] pointer-events-none"
+      />
 
-      {/* Bandeau défilant infini */}
+      {/* Bandeau défilant infini en arrière-plan */}
       <motion.div
         style={{ x: xMarquee }}
         className="absolute top-10 left-0 right-0 flex gap-12 whitespace-nowrap opacity-[0.04] pointer-events-none select-none"
@@ -86,18 +111,30 @@ export function WhyUs() {
         ))}
       </motion.div>
 
-      <div className="relative mx-auto max-w-[1400px] px-5 md:px-10">
-        <div className="grid lg:grid-cols-12 gap-10 items-end">
+      {/* Voile de transition (entrée/sortie) */}
+      <motion.div
+        style={{ opacity: veilOpacity }}
+        className="absolute inset-0 bg-[#0E3B2E] pointer-events-none z-10"
+      />
+
+      <motion.div
+        style={{ opacity: enterOpacity, scale: enterScale, y: enterY }}
+        className="relative z-20 mx-auto max-w-[1280px] px-6 md:px-10"
+      >
+        {/* En-tête */}
+        <div className="grid lg:grid-cols-12 gap-8 items-end mb-12">
           <div className="lg:col-span-7">
             <Reveal>
-              <span className="section-label text-white/60">
-                <span className="w-8 h-px bg-[#f5b91a]" />
-                Pourquoi EcoVolt
-              </span>
+              <div className="flex items-center gap-4 mb-5">
+                <span className="w-10 h-px bg-[#D8A928]" />
+                <span className="text-xs font-display font-semibold tracking-[0.3em] uppercase text-white/60">
+                  Pourquoi EcoVolt
+                </span>
+              </div>
             </Reveal>
-            <h2 className="mt-6 font-display font-semibold tracking-[-0.03em] leading-[1.02] text-[clamp(2rem,4.5vw,3.6rem)] text-balance">
-              <RevealHeadline text="Huit raisons de nous" />{" "}
-              <RevealHeadline text="confier votre projet." delay={0.1} />
+            <h2 className="font-display font-bold tracking-[-0.035em] leading-[1.05] text-[clamp(1.75rem,4vw,3.25rem)] text-balance">
+              <RevealHeadline text="Huit raisons de nous" />
+              <RevealHeadline text="confier votre projet." delay={0.1} className="italic font-light text-[#D8A928]" />
             </h2>
           </div>
           <div className="lg:col-span-5">
@@ -112,7 +149,7 @@ export function WhyUs() {
         </div>
 
         {/* Grille bento des points forts */}
-        <div className="mt-12 grid md:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-3 gap-4">
           {POINTS.map((p, i) => (
             <Reveal key={p.title} delay={0.05 * i} className={p.span}>
               <WhyUsCard point={p} index={i} />
@@ -121,14 +158,17 @@ export function WhyUs() {
 
           {/* Carte finale CTA */}
           <Reveal delay={0.4} className="md:col-span-3">
-            <div className="relative overflow-hidden rounded-3xl bg-[#f5b91a] text-[#07241c] p-8 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <motion.div
+              whileHover={{ scale: 1.01 }}
+              className="relative overflow-hidden rounded-3xl bg-[#D8A928] text-[#0E3B2E] p-8 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+            >
               <div className="absolute -right-12 -top-12 w-48 h-48 rounded-full bg-white/20 blur-2xl" />
               <div className="relative">
                 <InfinityIcon className="w-7 h-7 mb-3" />
                 <h3 className="font-display text-2xl md:text-3xl font-semibold tracking-tight">
                   Un accompagnement à long terme
                 </h3>
-                <p className="mt-2 text-sm md:text-base text-[#07241c]/80 font-body max-w-xl">
+                <p className="mt-2 text-sm md:text-base text-[#0E3B2E]/80 font-body max-w-xl">
                   Au-delà de l'installation, nous restons à vos côtés pendant
                   toute la durée de vie de votre système. C'est ça, la signature
                   EcoVolt.
@@ -136,14 +176,23 @@ export function WhyUs() {
               </div>
               <a
                 href="#contact"
-                className="relative inline-flex items-center gap-2 bg-[#07241c] text-white rounded-full px-6 py-3 font-display font-semibold text-sm hover:bg-[#0d3b2e] transition-colors"
+                className="relative inline-flex items-center gap-2 bg-[#0E3B2E] text-white rounded-full px-6 py-3 font-display font-semibold text-sm hover:bg-[#07241c] transition-colors"
               >
                 Démarrer mon projet
+                <ArrowUpRight className="w-4 h-4" />
               </a>
-            </div>
+            </motion.div>
           </Reveal>
         </div>
-      </div>
+      </motion.div>
+
+      {/* Sortie animée */}
+      <motion.div
+        style={{ opacity: exitOpacity, scale: exitScale, y: exitY }}
+        className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none z-20"
+      >
+        <div className="absolute bottom-0 left-0 right-0 h-full bg-gradient-to-t from-[#0E3B2E] to-transparent" />
+      </motion.div>
     </section>
   );
 }
@@ -156,7 +205,6 @@ function WhyUsCard({ point, index }: { point: (typeof POINTS)[number]; index: nu
   const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [8, -8]), { stiffness: 300, damping: 25 });
   const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-8, 8]), { stiffness: 300, damping: 25 });
 
-  // L'icône se déplace en profondeur au survol
   const iconX = useTransform(mouseX, [-0.5, 0.5], [-8, 8]);
   const iconY = useTransform(mouseY, [-0.5, 0.5], [-8, 8]);
 
@@ -182,13 +230,13 @@ function WhyUsCard({ point, index }: { point: (typeof POINTS)[number]; index: nu
       className="group relative h-full glass rounded-3xl p-6 hover:bg-white/[0.08] transition-colors duration-500 overflow-hidden"
     >
       {/* Halo qui apparaît au hover */}
-      <div className="absolute -bottom-20 -right-20 w-60 h-60 rounded-full bg-[#f5b91a]/0 group-hover:bg-[#f5b91a]/10 blur-[80px] transition-all duration-700" />
+      <div className="absolute -bottom-20 -right-20 w-60 h-60 rounded-full bg-[#D8A928]/0 group-hover:bg-[#D8A928]/10 blur-[80px] transition-all duration-700" />
       <div className="relative flex items-start justify-between" style={{ transform: "translateZ(30px)" }}>
         <motion.div
           style={{ x: iconX, y: iconY, transform: "translateZ(20px)" }}
-          className="w-12 h-12 rounded-2xl bg-[#f5b91a]/15 grid place-items-center group-hover:bg-[#f5b91a] transition-colors duration-500"
+          className="w-12 h-12 rounded-2xl bg-[#D8A928]/15 grid place-items-center group-hover:bg-[#D8A928] transition-colors duration-500"
         >
-          <point.icon className="w-5 h-5 text-[#f5b91a] group-hover:text-[#07241c] transition-colors duration-500" />
+          <point.icon className="w-5 h-5 text-[#D8A928] group-hover:text-[#0E3B2E] transition-colors duration-500" />
         </motion.div>
         <span className="font-display text-xs text-white/30 tracking-widest">
           0{index + 1}
