@@ -374,14 +374,7 @@ export function About() {
             <RevealLine text="Construire l'avenir" delay={0.3} />
             <RevealLine text="énergétique du Burkina" delay={0.4} />
             <RevealLine text="Faso grâce à" delay={0.5} />
-            <RevealLine text="l'" delay={0.6} className="inline" />
-            <RevealLine
-              text="énergie solaire"
-              delay={0.65}
-              className="inline italic font-light"
-              highlight="#D8A928"
-            />
-            <span>.</span>
+            <RevealLine text="à l'énergie solaire." delay={0.6} className="italic font-light" highlight="#D8A928" />
           </h2>
 
           {/* 3. Paragraphe 1 */}
