@@ -81,8 +81,8 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       }
       e.preventDefault();
       setMode("wheel");
-      // Multiplicateur pour un scroll un peu plus réactif
-      const delta = e.deltaY * 1.15;
+      // Multiplicateur pour un scroll fluide et réactif
+      const delta = e.deltaY * 1.05;
       const maxY =
         document.documentElement.scrollHeight - window.innerHeight;
       targetY.current = clamp(targetY.current + delta, 0, maxY);
@@ -151,8 +151,8 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       }
 
       const prev = currentY.current;
-      // Lerp doux — 0.1 = premium et fluide, ni trop lent ni trop rapide
-      currentY.current = lerp(currentY.current, targetY.current, 0.1);
+      // Lerp doux — 0.12 = fluide et réactif
+      currentY.current = lerp(currentY.current, targetY.current, 0.12);
 
       // Snap quand on est assez proche pour éviter les calculs inutiles
       if (Math.abs(currentY.current - targetY.current) < 0.5) {

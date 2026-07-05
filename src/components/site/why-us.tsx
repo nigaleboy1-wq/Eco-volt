@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
-import { Reveal, RevealHeadline } from "./reveal";
+import { FromLeft, FromRight, FromBottom, StaggerGroup, StaggerItem } from "./scroll-anim";
 import {
   Award,
   Boxes,
@@ -59,25 +59,6 @@ export function WhyUs() {
     target: ref,
     offset: ["start end", "end start"],
   });
-
-  // Animation d'entrée : opacité et scale quand la section entre
-  const enterOpacity = useTransform(scrollYProgress, [0, 0.15, 0.25], [0.3, 0.7, 1]);
-  const enterScale = useTransform(scrollYProgress, [0, 0.15, 0.25], [0.95, 0.98, 1]);
-  const enterY = useTransform(scrollYProgress, [0, 0.15, 0.25], [40, 20, 0]);
-
-  // Animation de sortie : opacité et blur quand la section sort
-  const exitOpacity = useTransform(scrollYProgress, [0.75, 0.85, 1], [1, 0.7, 0.3]);
-  const exitScale = useTransform(scrollYProgress, [0.75, 0.85, 1], [1, 0.98, 0.95]);
-  const exitY = useTransform(scrollYProgress, [0.75, 0.85, 1], [0, -20, -40]);
-
-  // Voile qui apparaît à l'entrée et disparaît à la sortie
-  const veilOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.1, 0.2, 0.8, 0.9, 1],
-    [1, 0.5, 0, 0, 0.5, 1]
-  );
-
-  // Bandeau défilant
   const xMarquee = useTransform(scrollYProgress, [0, 1], ["-15%", "-50%"]);
 
   return (
@@ -86,78 +67,61 @@ export function WhyUs() {
       ref={ref}
       className="relative bg-[#0E3B2E] text-white py-20 md:py-28 overflow-hidden"
     >
-      {/* Halo solaire animé */}
-      <motion.div
-        style={{ opacity: enterOpacity }}
-        className="absolute top-1/4 -left-32 w-[40vw] h-[40vw] rounded-full bg-[#0E3B2E] blur-[120px] opacity-60 pointer-events-none"
-      />
-      <motion.div
-        style={{ opacity: exitOpacity }}
-        className="absolute bottom-0 right-0 w-[35vw] h-[35vw] rounded-full bg-[#D8A928]/10 blur-[120px] pointer-events-none"
-      />
+      {/* Halo solaire */}
+      <div className="absolute top-1/4 -left-32 w-[40vw] h-[40vw] rounded-full bg-[#0E3B2E] blur-[120px] opacity-60 pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[35vw] h-[35vw] rounded-full bg-[#D8A928]/10 blur-[120px] pointer-events-none" />
 
-      {/* Bandeau défilant infini en arrière-plan */}
+      {/* Bandeau défilant infini */}
       <motion.div
         style={{ x: xMarquee }}
         className="absolute top-10 left-0 right-0 flex gap-12 whitespace-nowrap opacity-[0.04] pointer-events-none select-none"
       >
         {[...Array(2)].map((_, k) => (
-          <span
-            key={k}
-            className="font-display text-[14rem] font-semibold tracking-tighter"
-          >
+          <span key={k} className="font-display text-[14rem] font-semibold tracking-tighter">
             Confiance · Expertise · Solaire · EcoVolt ·
           </span>
         ))}
       </motion.div>
 
-      {/* Voile de transition (entrée/sortie) */}
-      <motion.div
-        style={{ opacity: veilOpacity }}
-        className="absolute inset-0 bg-[#0E3B2E] pointer-events-none z-10"
-      />
-
-      <motion.div
-        style={{ opacity: enterOpacity, scale: enterScale, y: enterY }}
-        className="relative z-20 mx-auto max-w-[1280px] px-6 md:px-10"
-      >
-        {/* En-tête */}
+      <div className="relative mx-auto max-w-[1280px] px-6 md:px-10">
+        {/* En-tête avec animations de mise en page */}
         <div className="grid lg:grid-cols-12 gap-8 items-end mb-12">
           <div className="lg:col-span-7">
-            <Reveal>
+            <FromRight distance={40}>
               <div className="flex items-center gap-4 mb-5">
                 <span className="w-10 h-px bg-[#D8A928]" />
                 <span className="text-xs font-display font-semibold tracking-[0.3em] uppercase text-white/60">
                   Pourquoi EcoVolt
                 </span>
               </div>
-            </Reveal>
+            </FromRight>
+
             <h2 className="font-display font-bold tracking-[-0.035em] leading-[1.05] text-[clamp(1.75rem,4vw,3.25rem)] text-balance">
-              <RevealHeadline text="Huit raisons de nous" />
-              <RevealHeadline text="confier votre projet." delay={0.1} className="italic font-light text-[#D8A928]" />
+              <RevealLine text="Huit raisons de nous" delay={0.15} />
+              <RevealLine text="confier votre projet." delay={0.25} className="italic font-light text-[#D8A928]" />
             </h2>
           </div>
           <div className="lg:col-span-5">
-            <Reveal delay={0.2}>
+            <FromBottom delay={0.3}>
               <p className="text-base md:text-lg text-white/70 font-body leading-relaxed text-pretty">
                 Nous ne livrons pas simplement des panneaux. Nous livrons une
                 promesse — celle d'une énergie fiable, durablement maîtrisée et
                 accompagnée par des experts accessibles, année après année.
               </p>
-            </Reveal>
+            </FromBottom>
           </div>
         </div>
 
-        {/* Grille bento des points forts */}
-        <div className="grid md:grid-cols-3 gap-4">
-          {POINTS.map((p, i) => (
-            <Reveal key={p.title} delay={0.05 * i} className={p.span}>
-              <WhyUsCard point={p} index={i} />
-            </Reveal>
+        {/* Grille bento avec stagger animation */}
+        <StaggerGroup stagger={0.1} delay={0.4} className="grid md:grid-cols-3 gap-4">
+          {POINTS.map((p) => (
+            <StaggerItem key={p.title} from="bottom" distance={30} className={p.span}>
+              <WhyUsCard point={p} index={POINTS.indexOf(p)} />
+            </StaggerItem>
           ))}
 
           {/* Carte finale CTA */}
-          <Reveal delay={0.4} className="md:col-span-3">
+          <StaggerItem from="bottom" distance={30} delay={0.2} className="md:col-span-3">
             <motion.div
               whileHover={{ scale: 1.01 }}
               className="relative overflow-hidden rounded-3xl bg-[#D8A928] text-[#0E3B2E] p-8 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
@@ -182,17 +146,9 @@ export function WhyUs() {
                 <ArrowUpRight className="w-4 h-4" />
               </a>
             </motion.div>
-          </Reveal>
-        </div>
-      </motion.div>
-
-      {/* Sortie animée */}
-      <motion.div
-        style={{ opacity: exitOpacity, scale: exitScale, y: exitY }}
-        className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none z-20"
-      >
-        <div className="absolute bottom-0 left-0 right-0 h-full bg-gradient-to-t from-[#0E3B2E] to-transparent" />
-      </motion.div>
+          </StaggerItem>
+        </StaggerGroup>
+      </div>
     </section>
   );
 }
@@ -229,7 +185,6 @@ function WhyUsCard({ point, index }: { point: (typeof POINTS)[number]; index: nu
       style={{ rotateX, rotateY, transformPerspective: 1000, transformStyle: "preserve-3d" }}
       className="group relative h-full glass rounded-3xl p-6 hover:bg-white/[0.08] transition-colors duration-500 overflow-hidden"
     >
-      {/* Halo qui apparaît au hover */}
       <div className="absolute -bottom-20 -right-20 w-60 h-60 rounded-full bg-[#D8A928]/0 group-hover:bg-[#D8A928]/10 blur-[80px] transition-all duration-700" />
       <div className="relative flex items-start justify-between" style={{ transform: "translateZ(30px)" }}>
         <motion.div
@@ -249,5 +204,22 @@ function WhyUsCard({ point, index }: { point: (typeof POINTS)[number]; index: nu
         {point.desc}
       </p>
     </motion.div>
+  );
+}
+
+/** Révélation ligne par ligne */
+function RevealLine({ text, delay = 0, className }: { text: string; delay?: number; className?: string }) {
+  return (
+    <span className="block overflow-hidden">
+      <motion.span
+        initial={{ y: "110%" }}
+        whileInView={{ y: 0 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
+        className={`block ${className ?? ""}`}
+      >
+        {text}
+      </motion.span>
+    </span>
   );
 }
