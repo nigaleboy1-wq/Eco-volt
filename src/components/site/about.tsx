@@ -1,9 +1,18 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
-import { Reveal, RevealHeadline, Parallax } from "./reveal";
-import { ShieldCheck, Sparkles, Leaf, Users } from "lucide-react";
+import { useRef, useEffect, useState } from "react";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import {
+  FromLeft,
+  FromRight,
+  FromBottom,
+  StaggerGroup,
+  StaggerItem,
+  PhotoReveal,
+  BreathingGlow,
+  FloatingIcon,
+} from "./scroll-anim";
+import { ShieldCheck, Sparkles, Leaf, Users, Sun, Battery, Zap, ArrowRight } from "lucide-react";
 
 const VALUES = [
   {
@@ -28,6 +37,28 @@ const VALUES = [
   },
 ];
 
+// Statistiques flottantes sur la photo
+const FLOATING_STATS = [
+  { value: 2500, prefix: "+", label: "Projets livrés à travers le pays", color: "dark" },
+  { value: 98, suffix: "%", label: "Clients satisfaits lors de nos missions", color: "light" },
+  { value: 15, prefix: "+", label: "Ingénieurs experts à votre service", color: "light" },
+];
+
+// Stats en ligne (avec count-up)
+const INLINE_STATS = [
+  { value: 2018, label: "Création d'EcoVolt" },
+  { value: 2500, prefix: "+", label: "Projets réalisés" },
+  { value: 98, suffix: "%", label: "Clients satisfaits" },
+  { value: 15, prefix: "+", label: "Ingénieurs certifiés" },
+];
+
+// Icônes décoratives flottantes
+const DECORATIVE_ICONS = [
+  { icon: Sun, top: "8%", left: "92%", size: 24, delay: 0 },
+  { icon: Battery, top: "45%", left: "95%", size: 22, delay: 1.5 },
+  { icon: Leaf, top: "82%", left: "92%", size: 24, delay: 3 },
+];
+
 export function About() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -35,110 +66,167 @@ export function About() {
     offset: ["start end", "end start"],
   });
   const imgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
-  const numY = useTransform(scrollYProgress, [0, 1], [80, -80]);
 
   return (
     <section
       id="about"
       ref={ref}
-      className="relative bg-[#f6f4ee] py-14 md:py-20 overflow-hidden"
+      className="relative py-16 md:py-24 overflow-hidden"
+      style={{ backgroundColor: "#F8F7F2" }}
     >
-      {/* Décor */}
-      <div className="absolute top-20 right-0 w-[40vw] h-[40vw] rounded-full bg-[#0d3b2e]/5 blur-[120px]" />
+      {/* === Décor de fond === */}
+      {/* Breathing glows */}
+      <BreathingGlow
+        className="absolute -top-20 -left-20 w-[40vw] h-[40vw] rounded-full blur-[100px] pointer-events-none"
+        color="radial-gradient(circle, rgba(216,169,40,0.12) 0%, transparent 70%)"
+        duration={7}
+      />
+      <BreathingGlow
+        className="absolute -bottom-20 -right-20 w-[35vw] h-[35vw] rounded-full blur-[100px] pointer-events-none"
+        color="radial-gradient(circle, rgba(14,59,46,0.08) 0%, transparent 70%)"
+        duration={8}
+      />
 
-      <div className="mx-auto max-w-[1400px] px-5 md:px-10">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* Colonne gauche : image + parallaxe */}
+      {/* Icônes décoratives flottantes */}
+      {DECORATIVE_ICONS.map((item, i) => (
+        <FloatingIcon
+          key={i}
+          className={`absolute hidden lg:block opacity-20 text-[#0E3B2E] z-0`}
+          duration={6 + i}
+          delay={item.delay}
+          amplitude={12}
+        >
+          <item.icon style={{ width: item.size, height: item.size }} />
+        </FloatingIcon>
+      ))}
+
+      <div className="relative mx-auto max-w-[1400px] px-5 md:px-10">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+          {/* === COLONNE GAUCHE : Photo + cartes flottantes === */}
           <div className="lg:col-span-5 relative">
-            <Parallax amount={30}>
-              <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl shadow-[#0d3b2e]/10">
-                <motion.div
-                  style={{ y: imgY }}
-                  className="absolute inset-0 scale-110"
-                >
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      backgroundImage:
-                        "url('https://sfile.chatglm.cn/images-ppt/61a3c59c2370.jpg')",
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
-                  />
-                </motion.div>
-                <div className="absolute inset-0 bg-gradient-to-t from-[#07241c]/40 via-transparent to-transparent" />
+            <FromLeft distance={80}>
+              <div className="relative">
+                {/* Photo avec scale 1.08 → 1 */}
+                <PhotoReveal className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl shadow-[#0E3B2E]/15">
+                  <motion.div style={{ y: imgY }} className="absolute inset-0 scale-110">
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        backgroundImage:
+                          "url('https://sfile.chatglm.cn/images-ppt/61a3c59c2370.jpg')",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }}
+                    />
+                  </motion.div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0E3B2E]/30 to-transparent" />
+                </PhotoReveal>
 
-                {/* Carte flottante superposée */}
-                <motion.div
-                  style={{ y: numY }}
-                  className="absolute -bottom-8 -right-4 md:-right-8 bg-white rounded-2xl p-5 shadow-xl shadow-[#0d3b2e]/15 w-48 z-20"
-                >
-                  <div className="font-display text-4xl font-semibold text-[#0d3b2e] tracking-tight leading-none">
-                    +12
-                  </div>
-                  <div className="text-xs text-[#5a6b65] mt-2 font-body leading-snug">
-                    ans d'expertise sur le terrain ouest-africain
-                  </div>
-                </motion.div>
-              </div>
-            </Parallax>
+                {/* === Cartes statistiques flottantes === */}
+                <div className="absolute -right-4 md:-right-8 top-[55%] space-y-3 z-20">
+                  <StaggerGroup stagger={0.2} delay={0.6}>
+                    {FLOATING_STATS.map((stat, i) => (
+                      <StaggerItem key={i} from="right" distance={30}>
+                        <FloatingStatCard stat={stat} index={i} />
+                      </StaggerItem>
+                    ))}
+                  </StaggerGroup>
+                </div>
 
-            {/* Statistiques verticales à gauche de l'image */}
-            <div className="hidden lg:flex flex-col gap-3 absolute -left-6 top-1/2 -translate-y-1/2 z-20">
-              <div className="bg-[#0d3b2e] text-white rounded-2xl p-4 w-36 shadow-lg shadow-[#0d3b2e]/20">
-                <div className="font-display text-2xl font-semibold leading-none">2 500+</div>
-                <div className="text-xs text-white/70 mt-2">Projets livrés</div>
+                {/* === Stats en ligne en bas de la photo === */}
+                <FromBottom delay={1} className="mt-6 grid grid-cols-4 gap-3">
+                  {INLINE_STATS.map((s, i) => (
+                    <div key={i} className="text-center">
+                      <CountUp
+                        value={s.value}
+                        prefix={s.prefix}
+                        suffix={s.suffix}
+                        className="font-display font-bold text-lg md:text-xl text-[#0E3B2E]"
+                      />
+                      <div className="text-[0.6rem] md:text-xs text-[#0E3B2E]/60 font-body mt-0.5 leading-tight">
+                        {s.label}
+                      </div>
+                    </div>
+                  ))}
+                </FromBottom>
               </div>
-              <div className="bg-[#f5b91a] text-[#07241c] rounded-2xl p-4 w-36 shadow-lg shadow-[#f5b91a]/30">
-                <div className="font-display text-2xl font-semibold leading-none">98%</div>
-                <div className="text-xs mt-2 opacity-80">Clients satisfaits</div>
-              </div>
-            </div>
+            </FromLeft>
           </div>
 
-          {/* Colonne droite : contenu */}
-          <div className="lg:col-span-7 lg:pl-10">
-            <Reveal>
-              <span className="section-label text-[#0d3b2e]">
-                <span className="w-8 h-px bg-[#f5b91a]" />
-                À propos d'EcoVolt
-              </span>
-            </Reveal>
+          {/* === COLONNE DROITE : Contenu === */}
+          <div className="lg:col-span-7 lg:pl-6">
+            {/* Label */}
+            <FromRight distance={40}>
+              <div className="flex items-center gap-4 mb-5">
+                <span className="w-12 h-px bg-[#D8A928]" />
+                <span className="text-xs font-display font-semibold tracking-[0.3em] uppercase text-[#0E3B2E]">
+                  À propos d'EcoVolt
+                </span>
+              </div>
+            </FromRight>
 
-            <h2 className="mt-6 font-display font-semibold tracking-[-0.03em] leading-[1.02] text-[clamp(2rem,4.5vw,3.6rem)] text-[#0a1f1a] text-balance">
-              <RevealHeadline text="Une expertise solaire" />{" "}
-              <RevealHeadline text="au service de votre" delay={0.1} />{" "}
-              <RevealHeadline text="indépendance énergétique." delay={0.2} />
+            {/* Titre — reveal line by line */}
+            <h2 className="font-display font-bold tracking-[-0.03em] leading-[1.05] text-[clamp(1.8rem,3.8vw,3rem)] text-[#132C25] text-balance max-w-2xl">
+              <RevealLine text="Construire l'avenir" delay={0.1} />
+              <RevealLine text="énergétique du Burkina" delay={0.2} />
+              <RevealLine text="Faso grâce à l'énergie" delay={0.3} />
+              <RevealLine text="solaire." delay={0.4} className="italic font-light text-[#0E3B2E]" />
             </h2>
 
-            <Reveal delay={0.2}>
-              <p className="mt-7 text-base md:text-lg text-[#5a6b65] font-body leading-relaxed text-pretty max-w-2xl">
+            {/* Paragraphes — fade upward */}
+            <FromBottom delay={0.5} className="mt-7">
+              <p className="text-base text-[#0E3B2E]/70 font-body leading-relaxed text-pretty max-w-xl">
                 Basée à Ouagadougou, EcoVolt Solutions accompagne les
                 particuliers, entreprises et institutions du Burkina Faso et des
                 pays voisins dans leur transition vers une énergie propre,
                 fiable et économique. Nous transformons l'abondance du soleil
                 africain en puissance électrique utile, mesurable et durable.
               </p>
-            </Reveal>
-
-            <Reveal delay={0.3}>
-              <p className="mt-4 text-base text-[#5a6b65] font-body leading-relaxed text-pretty max-w-2xl">
+            </FromBottom>
+            <FromBottom delay={0.6} className="mt-4">
+              <p className="text-base text-[#0E3B2E]/70 font-body leading-relaxed text-pretty max-w-xl">
                 Chaque projet commence par une écoute attentive, se construit
                 avec des ingénieurs certifiés et s'achève par un accompagnement
                 à long terme. Notre conviction est simple : une installation
                 solaire n'est pas un produit, c'est un partenariat de plusieurs
                 décennies.
               </p>
-            </Reveal>
+            </FromBottom>
 
-            {/* Valeurs en grille */}
-            <div className="mt-8 grid sm:grid-cols-2 gap-4">
-              {VALUES.map((v, i) => (
-                <Reveal key={v.title} delay={0.1 * i}>
-                  <ValueCard value={v} />
-                </Reveal>
+            {/* Cartes valeurs — stagger animation */}
+            <StaggerGroup stagger={0.12} delay={0.7} className="mt-8 grid sm:grid-cols-2 gap-4">
+              {VALUES.map((v) => (
+                <StaggerItem key={v.title} from="bottom" distance={30}>
+                  <motion.div
+                    whileHover={{ y: -4, boxShadow: "0 12px 32px -8px rgba(14,59,46,0.12)" }}
+                    className="group bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-[#0E3B2E]/[0.06] transition-colors"
+                  >
+                    <div className="w-10 h-10 rounded-xl bg-[#FFF9EC] grid place-items-center mb-3 group-hover:bg-[#0E3B2E] transition-colors duration-500">
+                      <v.icon className="w-4 h-4 text-[#0E3B2E] group-hover:text-[#D8A928] transition-colors duration-500" />
+                    </div>
+                    <h3 className="font-display text-base font-semibold text-[#132C25] tracking-tight">
+                      {v.title}
+                    </h3>
+                    <p className="mt-1.5 text-sm text-[#0E3B2E]/65 font-body leading-relaxed">
+                      {v.desc}
+                    </p>
+                  </motion.div>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerGroup>
+
+            {/* Bouton */}
+            <FromBottom delay={1.2} className="mt-8">
+              <motion.a
+                href="#projects"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[#D8A928] bg-white text-[#0E3B2E] text-sm font-display font-semibold hover:bg-[#0E3B2E] hover:text-white hover:border-[#0E3B2E] transition-all duration-300"
+              >
+                Découvrir notre histoire
+                <ArrowRight className="w-4 h-4" />
+              </motion.a>
+            </FromBottom>
           </div>
         </div>
       </div>
@@ -146,44 +234,104 @@ export function About() {
   );
 }
 
-function ValueCard({ value }: { value: (typeof VALUES)[number] }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+// === Sous-composants ===
 
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [6, -6]), { stiffness: 300, damping: 25 });
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-6, 6]), { stiffness: 300, damping: 25 });
+/** Carte statistique flottante */
+function FloatingStatCard({
+  stat,
+  index,
+}: {
+  stat: (typeof FLOATING_STATS)[number];
+  index: number;
+}) {
+  const isDark = stat.color === "dark";
+  return (
+    <FloatingIcon duration={5 + index} delay={index * 0.5} amplitude={6}>
+      <motion.div
+        whileHover={{ scale: 1.05, y: -4 }}
+        className={`w-44 p-4 rounded-2xl backdrop-blur-md border ${
+          isDark
+            ? "bg-[#0E3B2E] text-white border-[#0E3B2E]"
+            : "bg-white/80 text-[#132C25] border-white/60"
+        } shadow-xl shadow-[#0E3B2E]/10`}
+      >
+        <div className="flex items-baseline gap-1">
+          <CountUp
+            value={stat.value}
+            prefix={stat.prefix}
+            suffix={stat.suffix}
+            className={`font-display font-bold text-2xl ${isDark ? "text-[#D8A928]" : "text-[#0E3B2E]"}`}
+          />
+        </div>
+        <div className={`text-xs mt-1 font-body leading-tight ${isDark ? "text-white/70" : "text-[#0E3B2E]/60"}`}>
+          {stat.label}
+        </div>
+      </motion.div>
+    </FloatingIcon>
+  );
+}
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
-    mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
-  };
+/** Compteur animé (count-up) */
+function CountUp({
+  value,
+  prefix = "",
+  suffix = "",
+  className,
+}: {
+  value: number;
+  prefix?: string;
+  suffix?: string;
+  className?: string;
+}) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+  const [display, setDisplay] = useState(0);
 
-  const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-  };
+  useEffect(() => {
+    if (!inView) return;
+    let raf = 0;
+    const start = performance.now();
+    const duration = 2000;
+    const tick = (now: number) => {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 4);
+      setDisplay(Math.round(value * eased));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, value]);
 
   return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{ rotateX, rotateY, transformPerspective: 800, transformStyle: "preserve-3d" }}
-      className="group bg-white rounded-2xl p-5 border border-black/[0.06] hover:border-[#0d3b2e]/20 hover:shadow-xl hover:shadow-[#0d3b2e]/5 transition-colors"
-    >
-      <div style={{ transform: "translateZ(20px)" }} className="w-10 h-10 rounded-xl bg-[#e8f1ec] grid place-items-center mb-3 group-hover:bg-[#0d3b2e] transition-colors duration-500">
-        <value.icon className="w-4 h-4 text-[#0d3b2e] group-hover:text-[#f5b91a] transition-colors duration-500" />
-      </div>
-      <h3 style={{ transform: "translateZ(15px)" }} className="font-display text-base font-semibold text-[#0a1f1a] tracking-tight">
-        {value.title}
-      </h3>
-      <p style={{ transform: "translateZ(10px)" }} className="mt-1.5 text-sm text-[#5a6b65] font-body leading-relaxed">
-        {value.desc}
-      </p>
-    </motion.div>
+    <span ref={ref} className={className}>
+      {prefix}
+      {display.toLocaleString("fr-FR")}
+      {suffix}
+    </span>
+  );
+}
+
+/** Révélation ligne par ligne */
+function RevealLine({
+  text,
+  delay = 0,
+  className,
+}: {
+  text: string;
+  delay?: number;
+  className?: string;
+}) {
+  return (
+    <span className="block overflow-hidden">
+      <motion.span
+        initial={{ y: "110%" }}
+        whileInView={{ y: 0 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
+        className={`block ${className ?? ""}`}
+      >
+        {text}
+      </motion.span>
+    </span>
   );
 }
