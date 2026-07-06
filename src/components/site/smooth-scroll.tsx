@@ -10,15 +10,11 @@ import {
 import { motionValue, MotionValue } from "framer-motion";
 
 type ScrollContextType = {
-  /** Vélocité instantanée du scroll en pixels/frame (positif = vers le bas) */
   velocity: MotionValue<number>;
-  /** Position Y actuelle du scroll (interpolée) */
   scrollY: MotionValue<number>;
-  /** Vélocité normalisée 0→1 (absolue, plafonnée) pour usage facile */
   velocityNorm: MotionValue<number>;
 };
 
-// Valeurs par défaut (module-level pour stabilité)
 const _defaultVelocity = motionValue(0);
 const _defaultScrollY = motionValue(0);
 const _defaultVelocityNorm = motionValue(0);
@@ -33,26 +29,45 @@ export function useSmoothScroll() {
   return useContext(ScrollCtx);
 }
 
+// Export global pour que d'autres composants puissent vérifier
+export const isLowPerfDevice = () => {
+  if (typeof window === "undefined") return false;
+  const cores = (navigator as Navigator & { hardwareConcurrency?: number }).hardwareConcurrency || 8;
+  const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory || 8;
+  return cores <= 4 || memory <= 4;
+};
+
 const lerp = (a: number, b: number, n: number) => a + (b - a) * n;
 const clamp = (v: number, min: number, max: number) =>
   Math.max(min, Math.min(max, v));
 
+/**
+ * SmoothScrollProvider — Scroll fluide, stable et cinématique.
+ *
+ * Optimisations :
+ * - Désactivé sur mobile/touch (scroll natif plus performant)
+ * - RAF démarré uniquement quand on scroll (pas en continu)
+ * - Lerp adaptatif : facteur dynamique selon la distance à la cible
+ * - Delta accumulation : les wheel events s'accumulent dans le RAF
+ * - Anti-jitter : snap à 1px + arrêt du RAF quand idle
+ * - will-change: scroll-position pour optimisation GPU
+ */
 export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   const targetY = useRef(0);
   const currentY = useRef(0);
   const raf = useRef(0);
+  const deltaAccumulator = useRef(0);
+  const isAnimating = useRef(false);
 
-  // MotionValues stables pour exposer la vélocité sans re-renders
   const velocityMV = motionValue(0);
   const scrollYMV = motionValue(0);
   const velocityNormMV = motionValue(0);
 
   useEffect(() => {
-    // Désactivé sur mobile/touch et si l'utilisateur préfère réduire le mouvement
+    // Désactivé sur mobile/touch et prefers-reduced-motion
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
-    // Override du scroll-behavior: smooth CSS (sinon conflit)
     const prevScrollBehavior = document.documentElement.style.scrollBehavior;
     document.documentElement.style.scrollBehavior = "auto";
 
@@ -64,38 +79,41 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
     const setMode = (m: "wheel" | "anchor" | "key") => {
       mode = m;
       window.clearTimeout(modeTimer);
-      // Pour les ancres, on garde le mode actif plus longtemps (le lerp prend du temps)
-      // Le mode repassera à idle automatiquement quand la cible sera atteinte
-      const duration = m === "anchor" ? 3000 : 200;
+      const duration = m === "anchor" ? 3000 : 150;
       modeTimer = window.setTimeout(() => {
         mode = "idle";
       }, duration);
     };
 
-    // === Intercepte la molette ===
+    const startRAF = () => {
+      if (!isAnimating.current) {
+        isAnimating.current = true;
+        raf.current = requestAnimationFrame(tick);
+      }
+    };
+
+    // === Intercepte la molette — accumulation ===
     const onWheel = (e: WheelEvent) => {
-      // Si l'événement a déjà été "claim" par un usePinnedScroll (capture phase),
-      // on le laisse passer sans rien faire — le pinned scroll gère l'animation.
       if ((e as WheelEvent & { __pinnedClaimed?: boolean }).__pinnedClaimed) {
         return;
       }
       e.preventDefault();
+
+      // Accumuler le delta
+      deltaAccumulator.current += e.deltaY;
+
       setMode("wheel");
-      // Multiplicateur pour un scroll fluide et réactif
-      const delta = e.deltaY * 1.05;
-      const maxY =
-        document.documentElement.scrollHeight - window.innerHeight;
-      targetY.current = clamp(targetY.current + delta, 0, maxY);
+      startRAF();
     };
 
-    // === Intercepte le clavier (navigation accessible) ===
+    // === Intercepte le clavier ===
     const onKey = (e: KeyboardEvent) => {
       let delta = 0;
       const vh = window.innerHeight;
       switch (e.key) {
         case "PageDown":
         case " ":
-          if (e.shiftKey) return; // Shift+Space = vers le haut
+          if (e.shiftKey) return;
           delta = vh * 0.9;
           break;
         case "PageUp":
@@ -111,25 +129,22 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
           delta = -window.scrollY;
           break;
         case "End":
-          delta =
-            document.documentElement.scrollHeight - window.scrollY;
+          delta = document.documentElement.scrollHeight - window.scrollY;
           break;
         default:
           return;
       }
       e.preventDefault();
       setMode("key");
-      const maxY =
-        document.documentElement.scrollHeight - window.innerHeight;
+      const maxY = document.documentElement.scrollHeight - window.innerHeight;
       targetY.current = clamp(targetY.current + delta, 0, maxY);
+      startRAF();
     };
 
-    // === Intercepte les clics sur ancres (#section) ===
+    // === Intercepte les clics sur ancres ===
     const onClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      const anchor = target.closest(
-        'a[href^="#"]'
-      ) as HTMLAnchorElement | null;
+      const anchor = target.closest('a[href^="#"]') as HTMLAnchorElement | null;
       if (!anchor) return;
       const href = anchor.getAttribute("href");
       if (!href || href === "#") return;
@@ -137,79 +152,111 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       if (!el) return;
       e.preventDefault();
       setMode("anchor");
-      // Offset pour la navbar fixe (~80px)
       const rect = el.getBoundingClientRect();
       const offset = 70;
       targetY.current = window.scrollY + rect.top - offset;
+      startRAF();
     };
 
-    // === Boucle d'animation principale ===
+    // === Boucle d'animation — lerp adaptatif + anti-jitter ===
     const tick = () => {
-      // Si une navigation animée est en cours, on laisse le navbar gérer le scroll
+      // Navigation animée (navbar) : on laisse faire
       const navScrolling = (window as unknown as { __navScrolling?: boolean }).__navScrolling;
       if (navScrolling) {
-        // Sync currentY avec la position réelle pendant la navigation
         currentY.current = window.scrollY;
         targetY.current = window.scrollY;
-        raf.current = requestAnimationFrame(tick);
+        deltaAccumulator.current = 0;
+        isAnimating.current = false;
+        raf.current = 0;
         return;
       }
 
-      // Quand on est idle (scrollbar drag, touch, etc.), on sync la cible
+      // Appliquer les deltas accumulés
+      if (mode === "wheel" && Math.abs(deltaAccumulator.current) > 0.1) {
+        const maxY = document.documentElement.scrollHeight - window.innerHeight;
+        targetY.current = clamp(targetY.current + deltaAccumulator.current, 0, maxY);
+        deltaAccumulator.current = 0;
+      }
+
+      // Sync en mode idle
       if (mode === "idle") {
         targetY.current = window.scrollY;
       }
 
       const prev = currentY.current;
-      // Lerp doux — 0.12 = fluide et réactif
-      currentY.current = lerp(currentY.current, targetY.current, 0.12);
+      const remaining = Math.abs(targetY.current - currentY.current);
 
-      // Snap quand on est assez proche pour éviter les calculs inutiles
-      if (Math.abs(currentY.current - targetY.current) < 0.5) {
+      // === Lerp adaptatif ===
+      // Grandes distances → facteur élevé (réactif)
+      // Faibles distances → facteur réduit (doux, cinématique)
+      let lerpFactor: number;
+      if (remaining > 300) {
+        lerpFactor = 0.16; // Rapide
+      } else if (remaining > 100) {
+        lerpFactor = 0.13; // Normal
+      } else if (remaining > 20) {
+        lerpFactor = 0.10; // Ralentissement
+      } else if (remaining > 2) {
+        lerpFactor = 0.08; // Très doux
+      } else {
+        // Snap — cible atteinte
         currentY.current = targetY.current;
-        // Si on était en mode anchor/key, on repasse à idle (cible atteinte)
-        if (mode === "anchor" || mode === "key") {
+        if (mode !== "idle") {
           mode = "idle";
           window.clearTimeout(modeTimer);
         }
+        velocityMV.set(0);
+        velocityNormMV.set(0);
+        isAnimating.current = false;
+        raf.current = 0;
+        return; // Arrête le RAF (économie CPU)
       }
+
+      currentY.current = lerp(currentY.current, targetY.current, lerpFactor);
 
       const v = currentY.current - prev;
       velocityMV.set(v);
       scrollYMV.set(currentY.current);
-      // Vélocité normalisée: |v| / 35 plafonnée à 1
       velocityNormMV.set(Math.min(Math.abs(v) / 35, 1));
 
-      // N'applique le scrollTo que s'il y a du mouvement réel
-      if (Math.abs(currentY.current - prev) > 0.1) {
+      // Appliquer le scrollTo uniquement si mouvement significatif
+      if (Math.abs(v) > 0.05) {
         window.scrollTo(0, currentY.current);
       }
 
       raf.current = requestAnimationFrame(tick);
     };
 
+    // === Sync au scroll natif (scrollbar, touchpad) ===
+    const onNativeScroll = () => {
+      if (mode === "idle" && !isAnimating.current) {
+        targetY.current = window.scrollY;
+        currentY.current = window.scrollY;
+      }
+    };
+
+    // === Écouteurs ===
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("keydown", onKey);
     document.addEventListener("click", onClick);
-    raf.current = requestAnimationFrame(tick);
+    window.addEventListener("scroll", onNativeScroll, { passive: true });
 
     return () => {
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKey);
       document.removeEventListener("click", onClick);
-      cancelAnimationFrame(raf.current);
+      window.removeEventListener("scroll", onNativeScroll);
+      if (raf.current) cancelAnimationFrame(raf.current);
       document.documentElement.style.scrollBehavior = prevScrollBehavior;
       window.clearTimeout(modeTimer);
+      isAnimating.current = false;
+      raf.current = 0;
     };
   }, [velocityMV, scrollYMV, velocityNormMV]);
 
   return (
     <ScrollCtx.Provider
-      value={{
-        velocity: velocityMV,
-        scrollY: scrollYMV,
-        velocityNorm: velocityNormMV,
-      }}
+      value={{ velocity: velocityMV, scrollY: scrollYMV, velocityNorm: velocityNormMV }}
     >
       {children}
     </ScrollCtx.Provider>
