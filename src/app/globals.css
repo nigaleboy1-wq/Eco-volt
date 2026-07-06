@@ -356,3 +356,220 @@
   overflow: hidden;
   vertical-align: bottom;
 }
+
+/* ============ UI/UX AMÉLIORATIONS ============ */
+
+/* Focus visible accessible et élégant */
+*:focus-visible {
+  outline: 2px solid var(--solar);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--solar);
+  outline-offset: 3px;
+}
+
+/* Smooth transitions sur tous les éléments interactifs */
+button, a, input, select, textarea, [role="button"] {
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Bouton ripple effect */
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+.btn-ripple::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.5s ease, height 0.5s ease;
+}
+.btn-ripple:active::after {
+  width: 300px;
+  height: 300px;
+  transition: 0s;
+}
+
+/* Carte avec hover lift + glow */
+.card-hover {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px -12px rgba(14, 59, 46, 0.18);
+}
+
+/* Input premium avec focus state */
+.input-premium {
+  width: 100%;
+  background: #ffffff;
+  border: 1.5px solid rgba(14, 59, 46, 0.12);
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  font-family: var(--font-inter);
+  font-size: 0.95rem;
+  color: #132C25;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+.input-premium::placeholder {
+  color: #9aa7a2;
+}
+.input-premium:focus {
+  border-color: #0E3B2E;
+  box-shadow: 0 0 0 4px rgba(14, 59, 46, 0.08);
+}
+.input-premium:focus-visible {
+  outline: none;
+}
+
+/* Badge avec animation */
+.badge-pulse {
+  position: relative;
+}
+.badge-pulse::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: inherit;
+  opacity: 0.4;
+  animation: badge-pulse-anim 2s ease-in-out infinite;
+}
+@keyframes badge-pulse-anim {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.15); opacity: 0; }
+}
+
+/* Skeleton loading */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 8px;
+}
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Scrollbar dark theme (sections sombres) */
+.scroll-dark::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+.scroll-dark::-webkit-scrollbar-thumb {
+  background: rgba(216, 169, 40, 0.3);
+  border-radius: 999px;
+}
+.scroll-dark::-webkit-scrollbar-thumb:hover {
+  background: rgba(216, 169, 40, 0.5);
+}
+
+/* Text gradient hover */
+.text-gradient-hover {
+  background: linear-gradient(135deg, #132C25 0%, #0E3B2E 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background 0.5s ease;
+}
+.text-gradient-hover:hover {
+  background: linear-gradient(135deg, #0E3B2E 0%, #D8A928 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Scale on tap (mobile) */
+@media (hover: none) and (pointer: coarse) {
+  button:active, a:active {
+    transform: scale(0.97);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Selection custom (déjà existant mais étendu) */
+::selection {
+  background-color: var(--solar);
+  color: var(--forest-deep);
+}
+
+/* Tooltip subtil */
+[data-tooltip] {
+  position: relative;
+}
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background: #0E3B2E;
+  color: #D8A928;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-family: var(--font-inter);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 100;
+}
+[data-tooltip]:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+/* Glassmorphism premium */
+.glass-premium {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px -4px rgba(14, 59, 46, 0.1);
+}
+
+/* Section divider élégant */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(216, 169, 40, 0.3), transparent);
+}
+
+/* No tap highlight sur mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Better font rendering */
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

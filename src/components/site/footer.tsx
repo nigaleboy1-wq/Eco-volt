@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { Sun, ArrowUpRight, Facebook, Linkedin, Instagram, Mail, Phone, MapPin } from "lucide-react";
 import { Reveal } from "./reveal";
 
@@ -139,8 +140,8 @@ export function Footer() {
 
       {/* Bande inférieure */}
       <div className="relative border-t border-white/10">
-        <div className="mx-auto max-w-[1400px] px-5 md:px-10 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/60 font-body">
+        <div className="mx-auto max-w-[1280px] px-6 md:px-10 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-white/50 font-body">
             © {new Date().getFullYear()} EcoVolt Solutions. Tous droits réservés.
             Conçu avec exigence à Ouagadougou.
           </p>
@@ -150,14 +151,16 @@ export function Footer() {
               { icon: Facebook, label: "Facebook" },
               { icon: Instagram, label: "Instagram" },
             ].map((s) => (
-              <a
+              <motion.a
                 key={s.label}
                 href="#"
                 aria-label={s.label}
-                className="grid place-items-center w-9 h-9 rounded-full border border-white/10 hover:bg-[#f5b91a] hover:text-[#07241c] hover:border-[#f5b91a] transition-all"
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="grid place-items-center w-9 h-9 rounded-full border border-white/10 hover:bg-[#D8A928] hover:text-[#0E3B2E] hover:border-[#D8A928] transition-colors duration-300"
               >
                 <s.icon className="w-4 h-4" />
-              </a>
+              </motion.a>
             ))}
           </div>
         </div>
